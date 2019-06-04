@@ -1,0 +1,326 @@
+﻿
+<head>
+   <style type="text/css">
+      .col-md-3 {
+         width: 930px;
+      }
+
+      .col-md-4 {
+         height: 104px;
+      }
+
+      .auto-style1 {
+         width: 161px;
+      }
+
+      #Select1 {
+         width: 260px;
+      }
+
+      #entry-price {
+         width: 261px;
+      }
+
+      #profit-target {
+         width: 261px;
+      }
+
+      #stop-loss {
+         width: 261px;
+      }
+
+      #quantity {
+         width: 261px;
+      }
+
+      #Submit1 {
+         width: 449px;
+      }
+
+      .auto-style3 {
+         width: 265px;
+      }
+
+      .auto-style4 {
+         width: 182px;
+      }
+
+      #Select2 {
+         width: 260px;
+      }
+
+      #Select3 {
+         width: 260px;
+      }
+
+      .auto-style7 {
+         width: 350px;
+      }
+      .auto-style10 {
+         width: 265px;
+         height: 15px;
+      }
+      .auto-style14 {
+         width: 175px;
+      }
+      .auto-style15 {
+         width: 105px;
+      }
+      .auto-style16 {
+         width: 137px;
+      }
+      .auto-style18 {
+         width: 169px;
+         height: 15px;
+      }
+      .auto-style19 {
+         width: 169px;
+      }
+   </style>
+</head>
+@{
+   ViewBag.Title = "StandardTradeTool";
+   Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Standard Trade Tool</h2>
+
+&nbsp;
+<div class="row">
+   This tool acts as a intermediary between the exchange and the underlying data analysis software.
+   It uses the selected inputs to determine which data to extract from the exchange. The extracted
+   data is then pushed through sophisticated algorithms and the results is then passed back to this
+   page and to the automated trade software. The automated trade software when enabled actsb on
+   your behalf to initiate trades, alternatively you can configure this tool to initiate the trades
+   manually. This tool can also be configured to use a combination of the automation and manual
+   trading mechanisms.
+</div>
+&nbsp;
+<table style="width:100%;">
+   <tr>
+      <td class="auto-style4">
+         <div style="width: 175px">
+            <strong>Select currency pairing:</strong>
+         </div>
+      </td>
+
+      <td>
+         <select id="currency-pair" name="D1" onchange="getTickerValue()">
+            <option>NOT_SELECTED</option>
+            <option>BNBUSDT</option>
+            <option>BTCUSDT</option>
+            <option>EOSUSDT</option>
+            <option>ETHUSDT</option>
+            <option>XLMUSDT</option>
+            <option>XRPUSDT</option>
+         </select>
+      </td>
+      <td class="auto-style19">
+            <div id="ticker-data-label" class="auto-style15"><strong>Ticker Data:</strong></div>
+      </td>
+      <td><div id="ticker-data" class="auto-style16"></div></td>
+   </tr>
+   <tr>
+      <td class="auto-style7">
+         <div>
+            <strong>buy order</strong><input id="radio-trade-order-type-buy" checked name="TradeOrderType" type="radio" value="0" /><strong>sell order</strong><input id="radio-trade-order-type-sell" name="TradeOrderType" type="radio" value="1" />
+         </div>
+      </td>
+   </tr>
+   <tr>
+      <td class="auto-style4">
+         <div style="width: 175px; height: 18px;">
+            <strong>Specify entry price:</strong>
+         </div>
+      </td>
+      <td colspan="1" class="auto-style10">
+         <input id="entry-price" type="text" />
+      </td>
+      <td class="auto-style18">
+         <div class="auto-style14">
+            <strong>Specify entrance tolerance:</strong></div>
+      </td>
+      <td class="auto-style4">
+         <input id="entrance-tolerance" type="text" /></td>
+
+   </tr>
+   <tr>
+      <td class="auto-style4">
+         <div style="width: 175px">
+            <strong>Specify profit target:</strong>
+         </div>
+      </td>
+      <td colspan="1" class="auto-style3">
+         <input id="profit-target" type="text" />
+      </td>
+      <td class="auto-style19">
+         <div style="width: 175px">
+            <strong>Specify profit target tolerance:</strong>
+         </div>
+      </td>
+      <td class="auto-style4">
+         <input id="profit-target-tolerance" type="text" />
+      </td>
+   </tr>
+   <tr>
+      <td class="auto-style4">
+         <div style="width: 175px">
+            <strong>Specify stop loss:</strong>
+         </div>
+      </td>
+      <td colspan="1" class="auto-style3">
+         <input id="stop-loss" type="text" />
+      </td>
+      <td class="auto-style19">
+         <div style="width: 175px">
+            <strong>Specify stop loss tolerance:</strong>
+         </div>
+      </td>
+      <td class="auto-style7">
+         <input id="stop-loss-tolerance" type="text" />
+      </td>
+   </tr>
+   <tr>
+      <td class="auto-style4">
+         <div>
+            <div style="width: 175px">
+               <strong>Specify quantity:</strong>
+            </div>
+         </div>
+      </td>
+      <td colspan="1" class="auto-style3">
+         <input id="quantity" type="text" />
+      </td>
+      <td class="auto-style19">&nbsp;</td>
+   </tr>
+   <tr>
+      <td class="auto-style4">&nbsp;</td>
+      <td colspan="1" class="auto-style3">
+         <div style="width: 261px">
+            <input id="radio-quantity" checked name="Quantity" type="radio" value="V1" /><strong>0%</strong><input id="Quantity2" name="Quantity" type="radio" value="V1" /><strong>25%</strong><input id="Quantity3" name="Quantity" type="radio" value="V1" /><strong>50%</strong><input id="Quantity4" name="Quantity" type="radio" value="V1" /><strong>75%</strong><input id="Quantity5" name="Quantity" type="radio" value="V1" /><strong>100%</strong>
+         </div>
+      </td>
+      <td class="auto-style19">&nbsp;</td>
+   </tr>
+   <tr>
+      <td class="auto-style4">&nbsp;</td>
+      <td colspan="1" class="auto-style3">&nbsp;</td>
+      <td class="auto-style19">&nbsp;</td>
+   </tr>
+   <tr>
+      <td class="auto-style4">
+         <div>
+            <strong>Trailing profit target:</strong>
+         </div>
+      </td>
+      <td colspan="1" class="auto-style3">
+         <input id="checkbox-trailing-profit-target" type="checkbox" />
+      </td>
+      <td class="auto-style19">&nbsp;</td>
+   </tr>
+   <tr>
+      <td class="auto-style4">
+         <div>
+            <strong>Trailing stop loss:</strong>
+         </div>
+      </td>
+      <td colspan="1" class="auto-style3">
+         <input id="checkbox-trailing-stop-loss" type="checkbox" />
+      </td>
+      <td class="auto-style19">&nbsp;</td>
+   </tr>
+   <tr>
+      <td class="auto-style4">&nbsp;</td>
+      <td colspan="1" class="auto-style3">&nbsp;</td>
+      <td class="auto-style19">&nbsp;</td>
+   </tr>
+   <tr>
+      <td class="auto-style1" colspan="5">
+         <input id="create-trade" style="font-weight: bold" type="button" value="Create Trade" />
+         &nbsp;
+      </td>
+   </tr>
+
+   <script>
+      var nextId = (function () {
+         var counter = 0;
+         return function () { counter += 1; return counter; }
+      })();
+
+      //function createTrade() {
+      //   getTickerValue();
+      //   saveFormData();
+      //}
+      function getTickerValue() {
+         var myVar = setInterval(refresh, 1000);
+
+         function refresh() {
+            var burl = "https://api.binance.com";
+            var query = '/api/v3/ticker/price';
+            query += '?symbol=';
+            query += document.getElementById('currency-pair').value;
+            var url = burl + query;
+            var userInput = {
+               EndPoint: url,
+               HttpMethod: 0,
+               CurrencyPair: document.getElementById("currency-pair").selectedIndex
+            }
+            //            var burl = "https://api.binance.com";
+            //            var query = '/api/v3/ticker/price';
+            //            query += '?symbol='
+            //            query += document.getElementById('currency-pair').value;
+            //            var url = burl + query;
+            //            var ourRequest = new XMLHttpRequest();
+            //            var connnectionString = "";
+            //            ourRequest.open('GET', url, true);
+            //
+            //            ourRequest.onload = function () {
+            //               connnectionString = ourRequest.responseText;
+            //               document.getElementById("ticker-data").innerHTML = connnectionString;
+            //               var ticker = { Id: nextId(), RawData: connnectionString }
+            $.ajax({
+               type: 'POST',
+               url: 'http://localhost:52609/StandardTradeTool/Refresh',
+               data: JSON.stringify(userInput),
+               contentType: 'application/json; charset=utf-8',
+               dataType: 'json',
+               success: function (data) { console.log(data); }
+            }).done(function (response) {
+               var standardTradeToolViewModel = response;
+               var ticker = standardTradeToolViewModel.CurrencyPair + " : " + standardTradeToolViewModel.Amount;
+               document.getElementById("ticker-data").innerHTML = ticker;
+            });
+            //}
+            //            ourRequest.send();
+         }
+      }
+
+      function saveFormData() {
+         var d = new Date();
+         var userInput = {
+            CurrencyPair: document.getElementById("currency-pair").selectedIndex,
+            EntrancePrice: document.getElementById("entry-price").value,
+            ProfitTargetPrice: document.getElementById("profit-target").value,
+            StopLossPrice: document.getElementById("stop-loss").value,
+            Quantity: document.getElementById("quantity").value,
+            TrailingProfitTarget: document.getElementById("checkbox-trailing-profit-target").checked,
+            TrailingStopLoss: document.getElementById("checkbox-trailing-stop-loss").checked,
+            TradeOrderType: $('input[name=TradeOrderType]:checked').val(),
+            EntranceTolerance: document.getElementById("entrance-tolerance").value,
+            ProfitTargetTolerance: document.getElementById("profit-target-tolerance").value,
+            StopLossTolerance: document.getElementById("stop-loss-tolerance").value,
+         }
+         $.ajax({
+            type: 'POST',
+            url: 'http://localhost:52609/StandardTradeTool/SubmitUserInput',
+            data: JSON.stringify(userInput),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (data) { console.log(data); }
+         });
+      }
+
+   </script>
+
+</table>
+

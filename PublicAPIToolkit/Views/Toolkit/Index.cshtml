@@ -1,0 +1,61 @@
+﻿
+@{
+   ViewBag.Title = "Toolkit";
+   Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron">
+   <h1>Toolkit</h1>
+   <p class="lead">Tools available for use.</p>
+</div>
+
+<div class="row">
+   <div class="col-md-2">
+      <ul><li>Verify Connection:</li></ul>
+   </div>
+   <div class="col-md-2">
+      <button class="btn-default" id="btn-connect" onclick="getConnectionStatus()" style="width:150px">&laquo; START &raquo;</button>
+   </div>
+</div>
+<script>
+    function getConnectionStatus() {
+        var toolkitInputModel = { EndPoint: "https://api.binance.com/api/v1/ping", HttpMethod: 0 };
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:52609/Toolkit/GetConnectionStatus',
+            data: JSON.stringify(toolkitInputModel),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (response) {
+                console.log("success");
+                console.log(response);
+            },
+            error: function (response) {
+                if (data.statusText != "OK") {
+                    console.log("error");
+                    console.log(response);
+                }
+            }
+        }).done(function (response) {
+            var toolkitViewModel = response;
+            var connectionStatus = toolkitViewModel.ConnectionStatus;
+            if (connectionStatus == true) {
+                document.getElementById("btn-connect").style.backgroundColor = "Green";
+                document.getElementById("btn-connect").innerHTML = "&laquo; CONNECTED &raquo;";
+            }
+            else {
+                document.getElementById("btn-connect").style.backgroundColor = "Red";
+                document.getElementById("btn-connect").innerHTML = "&laquo; NOT CONNECTED &raquo;";
+                console.log(connectionStatus);
+            }
+        });
+    }
+</script>
+<div class="row">
+   <div class="col-md-2">
+      <ul><li>Standard Trade Tool:</li></ul>
+   </div>
+   <div class="col-md-2">
+      <button class="btn-default" id="btn-standard-trade-tool" style="width:150px" onclick="location.href='@Url.Action("Index", "StandardTradeTool")#StandardTradeTool'">&laquo; START &raquo;</button>
+   </div>
+</div>
