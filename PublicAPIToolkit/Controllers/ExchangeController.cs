@@ -1,6 +1,7 @@
 ﻿using PublicAPIToolkit.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -24,7 +25,7 @@ namespace PublicAPIToolkit.Controllers
          foreach (Match match in matchCollection)
          {
             Enum.TryParse(match.Groups[1].Value, out outCurrencyPair);
-            outCurrency = Convert.ToDecimal(match.Groups[2].Value);
+            outCurrency = Convert.ToDecimal(match.Groups[2].Value, CultureInfo.InvariantCulture);
          }
       }
    }
