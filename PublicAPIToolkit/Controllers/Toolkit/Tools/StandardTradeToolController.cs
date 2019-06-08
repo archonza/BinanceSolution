@@ -87,7 +87,7 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
          //InitiateTrade();
          string rawTicker = restClientController.GetResponse();
          ECurrencyPair currencyPair = ECurrencyPair.NOT_SELECTED;
-         decimal amount = 0;
+         decimal amount = 0.0m;
          ExchangeController.ProcessRawData(rawTicker, ref currencyPair, ref amount);
          standardTradeToolViewModel.CurrencyPair = currencyPair.ToString();
          standardTradeToolViewModel.Amount = amount;
