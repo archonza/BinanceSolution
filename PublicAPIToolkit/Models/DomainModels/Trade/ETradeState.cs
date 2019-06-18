@@ -9,6 +9,7 @@ namespace PublicAPIToolkit.Models
    {
       UNINITIALISED,
       INACTIVE,
-      ACTIVE
+      ACTIVE,
+      EXIT
    }
 }

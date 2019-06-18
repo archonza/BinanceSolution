@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PublicAPIToolkit.Models
 {
-   public enum EInfoMessageId
+   public enum EInfoMessageDescriptor
    {
       EntryGreaterThanTicker,
       EntryLessThanTicker,

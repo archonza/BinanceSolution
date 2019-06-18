@@ -199,7 +199,7 @@
     <Compile Include="Models\DomainModels\Trade\TradeOrder.cs" />
     <Compile Include="Models\DomainModels\Trade\ECurrencyPair.cs" />
     <Compile Include="Models\DomainModels\Trade\EEntryTickerCompareType.cs" />
-    <Compile Include="Models\EInfoMessageId.cs" />
+    <Compile Include="Models\EInfoMessageDescriptor.cs" />
     <Compile Include="Models\EProfitTargetTolerance.cs" />
     <Compile Include="Models\EStopLossTolerance.cs" />
     <Compile Include="Models\DomainModels\Trade\ETradeOrderType.cs" />

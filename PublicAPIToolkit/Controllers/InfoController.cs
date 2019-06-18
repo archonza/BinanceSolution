@@ -1,5 +1,8 @@
 ﻿using PublicAPIToolkit.Models;
 using System;
+using System.IO;
+using System.Security.AccessControl;
+using static PublicAPIToolkit.Models.InfoModel;
 
 namespace PublicAPIToolkit.Controllers
 {
@@ -8,21 +11,42 @@ namespace PublicAPIToolkit.Controllers
       private InfoModel infoModel;
       private string FullFilePath { get; set; }
       
-      public InfoController(InfoModel infoModel, string fullFilePath)
+      public InfoController(string fullFilePath)
       {
          FullFilePath = fullFilePath;
-         this.infoModel = infoModel;
+         infoModel = new InfoModel();
       }
 
-      public void Print(EInfoMessageId infoMessageId)
+      public void AddInfo(EInfoMessageDescriptor infoMessageDescriptor, string message)
       {
-         using (System.IO.StreamWriter file =
-               new System.IO.StreamWriter(@FullFilePath, true))
+         infoModel.infoMessageList.Add(new InfoMessage(infoMessageDescriptor, message));
+      }
+
+      public void Print(EInfoMessageDescriptor infoMessageDescriptor)
+      {
+         FileStream fileStream = null;
+         try
          {
-            if (FullFilePath != null)
+            FileSecurity fileSecurity = new FileSecurity();
+            fileSecurity.AddAccessRule(new FileSystemAccessRule(@"DESKTOP-9H8NQNT\rudol", FileSystemRights.Write, AccessControlType.Allow));
+            fileStream = new FileStream(@FullFilePath, FileMode.Append, FileSystemRights.Write, FileShare.Write, 4096, FileOptions.None, fileSecurity);
+
+            using (System.IO.StreamWriter file =
+               new System.IO.StreamWriter(fileStream))
             {
-               file.WriteLine(infoModel.infoMessageList.Find(x => x.Id == infoMessageId).Message);
+               if (FullFilePath != null)
+               {
+                  file.WriteLine(infoModel.infoMessageList.Find(x => x.InfoMessageDescriptor == infoMessageDescriptor).Message);
+               }
             }
+         }
+         finally
+         {
+            if (fileStream != null)
+            {
+               fileStream.Dispose();
+            }
+
          }
       }
    }
