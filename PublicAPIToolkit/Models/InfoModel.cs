@@ -26,7 +26,8 @@ namespace PublicAPIToolkit.Models
 
          private void NextGroup()
          {
-            InfoMessageGroupId = ++nextInfoMessageGroupId;
+            nextInfoMessageGroupId++;
+            InfoMessageGroupId = nextInfoMessageGroupId;
          }
       }
       public List<InfoMessage> infoMessageList;

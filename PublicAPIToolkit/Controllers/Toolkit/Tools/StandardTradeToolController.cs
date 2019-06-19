@@ -21,6 +21,7 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
       private RestClientController restClientController;
       private StandardTradeToolViewModel standardTradeToolViewModel = new StandardTradeToolViewModel();
       Thread tradeTread;
+      private Object threadLock = new Object();
 
       public StandardTradeToolController()
       {
@@ -72,49 +73,50 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
 
          tradeOrderController.AddTradeOrder(tradeOrder);
          tradeOrder.TradeState = ETradeState.UNINITIALISED;
-
-         /* Add info messages */
-         infoController.AddInfo(
-            true,
-            EInfoMessageDescriptor.EntryGreaterThanTicker,
-            "Entry price is greater than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " Ticker price: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-         infoController.AddInfo(
-            false,
-            EInfoMessageDescriptor.EntryLessThanTicker,
-            "Entry price is less than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " Ticker price: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-         infoController.AddInfo(
-            false,
-            EInfoMessageDescriptor.DetectEntrance,
-            "Detecting trade entrance." + " Ticker price: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-         infoController.AddInfo(
-            false,
-            EInfoMessageDescriptor.DetectExit,
-            "Detecting trade exit." + " Ticker price: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-         infoController.AddInfo(
-            false,
-            EInfoMessageDescriptor.BuyOrderEnteredEntryGreaterThanTicker,
-            "Trade was entered (BUY ORDER) with entry originally greater than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-         infoController.AddInfo(
-            false,
-            EInfoMessageDescriptor.BuyOrderEnteredEntryLessThanTicker,
-            "Trade was entered (BUY ORDER) with entry originally less than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-         infoController.AddInfo(
-            false,
-            EInfoMessageDescriptor.SellOrderEnteredEntryGreaterThanTicker,
-            "Trade was entered (SELL ORDER) with entry originally greater than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-         infoController.AddInfo(
-            false,
-            EInfoMessageDescriptor.SellOrderEnteredEntryLessThanTicker,
-            "Trade was entered (SELL ORDER) with entry originally less than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-         infoController.AddInfo(
-            false,
-            EInfoMessageDescriptor.ExitedWithProfit,
-            "Trade was exited with a profit." + " Target profit price: " + tradeOrder.ProfitTargetPrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-         infoController.AddInfo(
-            false,
-            EInfoMessageDescriptor.ExitedWithLoss,
-            "Trade was exited with a loss." + " Stop loss price: " + tradeOrder.StopLossPrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-
+         lock (threadLock)
+         {
+            /* Add info messages */
+            infoController.AddInfo(
+               true,
+               EInfoMessageDescriptor.EntryGreaterThanTicker,
+               "Entry price is greater than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " Ticker price: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
+            infoController.AddInfo(
+               false,
+               EInfoMessageDescriptor.EntryLessThanTicker,
+               "Entry price is less than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " Ticker price: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
+            infoController.AddInfo(
+               false,
+               EInfoMessageDescriptor.DetectEntrance,
+               "Detecting trade entrance." + " Ticker price: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
+            infoController.AddInfo(
+               false,
+               EInfoMessageDescriptor.DetectExit,
+               "Detecting trade exit." + " Ticker price: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
+            infoController.AddInfo(
+               false,
+               EInfoMessageDescriptor.BuyOrderEnteredEntryGreaterThanTicker,
+               "Trade was entered (BUY ORDER) with entry originally greater than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
+            infoController.AddInfo(
+               false,
+               EInfoMessageDescriptor.BuyOrderEnteredEntryLessThanTicker,
+               "Trade was entered (BUY ORDER) with entry originally less than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
+            infoController.AddInfo(
+               false,
+               EInfoMessageDescriptor.SellOrderEnteredEntryGreaterThanTicker,
+               "Trade was entered (SELL ORDER) with entry originally greater than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
+            infoController.AddInfo(
+               false,
+               EInfoMessageDescriptor.SellOrderEnteredEntryLessThanTicker,
+               "Trade was entered (SELL ORDER) with entry originally less than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
+            infoController.AddInfo(
+               false,
+               EInfoMessageDescriptor.ExitedWithProfit,
+               "Trade was exited with a profit." + " Target profit price: " + tradeOrder.ProfitTargetPrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
+            infoController.AddInfo(
+               false,
+               EInfoMessageDescriptor.ExitedWithLoss,
+               "Trade was exited with a loss." + " Stop loss price: " + tradeOrder.StopLossPrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
+         }
          tradeTread = new Thread(() => InitiateTrade(tradeOrder));
 
          /* Start new tade thread */

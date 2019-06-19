@@ -10,7 +10,8 @@ namespace PublicAPIToolkit.Controllers
     {
       private InfoModel infoModel;
       private string FullFilePath { get; set; }
-      
+      private Object threadLock = new Object();
+
       public InfoController(string fullFilePath)
       {
          FullFilePath = fullFilePath;
@@ -52,33 +53,36 @@ namespace PublicAPIToolkit.Controllers
 
       public void PrintAllGroups(EInfoMessageDescriptor infoMessageDescriptor)
       {
-         FileStream fileStream = null;
-         try
+         lock (threadLock)
          {
-            //FileSecurity fileSecurity = new FileSecurity();
-            //fileSecurity.AddAccessRule(new FileSystemAccessRule(@"DESKTOP-9H8NQNT\rudol", FileSystemRights.Write, AccessControlType.Allow));
-            //fileStream = new FileStream(@FullFilePath, FileMode.Append, FileSystemRights.Write, FileShare.Write, 4096, FileOptions.None, fileSecurity);
-            fileStream = new FileStream(@FullFilePath, FileMode.Append);
-
-            using (System.IO.StreamWriter file =
-               new System.IO.StreamWriter(fileStream))
+            FileStream fileStream = null;
+            try
             {
-               if (FullFilePath != null)
+               //FileSecurity fileSecurity = new FileSecurity();
+               //fileSecurity.AddAccessRule(new FileSystemAccessRule(@"DESKTOP-9H8NQNT\rudol", FileSystemRights.Write, AccessControlType.Allow));
+               //fileStream = new FileStream(@FullFilePath, FileMode.Append, FileSystemRights.Write, FileShare.Write, 4096, FileOptions.None, fileSecurity);
+               fileStream = new FileStream(@FullFilePath, FileMode.Append);
+
+               using (System.IO.StreamWriter file =
+                  new System.IO.StreamWriter(fileStream))
                {
-                  for (int infoMessageGroupId = 0; infoMessageGroupId < GetNumberOfGroups(); infoMessageGroupId++)
+                  if (FullFilePath != null)
                   {
-                     file.WriteLine(infoModel.infoMessageList.Find(x => (x.InfoMessageGroupId == infoMessageGroupId) && (x.InfoMessageDescriptor == infoMessageDescriptor)).Message);
+                     for (int infoMessageGroupId = 0; infoMessageGroupId < GetNumberOfGroups(); infoMessageGroupId++)
+                     {
+                        file.WriteLine(infoModel.infoMessageList.Find(x => (x.InfoMessageGroupId == infoMessageGroupId) && (x.InfoMessageDescriptor == infoMessageDescriptor)).Message);
+                     }
                   }
                }
             }
-         }
-         finally
-         {
-            if (fileStream != null)
+            finally
             {
-               fileStream.Dispose();
-            }
+               if (fileStream != null)
+               {
+                  fileStream.Dispose();
+               }
 
+            }
          }
       }
 
