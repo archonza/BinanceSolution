@@ -9,20 +9,24 @@ namespace PublicAPIToolkit.Models
    {
       public class InfoMessage
       {
-         public uint InfoMessageGroupId { get; private set; }
+         public int InfoMessageGroupId { get; private set; }
          public EInfoMessageDescriptor InfoMessageDescriptor { get; set; }
          public string Message { get; set; }
-         private static uint nextInfoMessageGroupId = 0;
+         private static int nextInfoMessageGroupId = -1;
 
-         public InfoMessage(EInfoMessageDescriptor infoMessageDescriptor, string message)
+         public InfoMessage(bool nextGroup, EInfoMessageDescriptor infoMessageDescriptor, string message)
          {
             InfoMessageDescriptor = infoMessageDescriptor;
             Message = message;
+            if (nextGroup == true)
+            {
+               NextGroup();
+            }
          }
 
-         public void NextGroup()
+         private void NextGroup()
          {
-            InfoMessageGroupId = nextInfoMessageGroupId++;
+            InfoMessageGroupId = ++nextInfoMessageGroupId;
          }
       }
       public List<InfoMessage> infoMessageList;

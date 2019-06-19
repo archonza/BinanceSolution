@@ -16,15 +16,14 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
    public class StandardTradeToolController : Controller
    {
       public static TradeDataModel exchangeDataModel = new TradeDataModel();
-      public static InfoController infoController;
+      public static InfoController infoController = new InfoController(@"C:\Users\za120317\Test.txt");
       public TradeOrderController tradeOrderController = new TradeOrderController();
       private RestClientController restClientController;
       private StandardTradeToolViewModel standardTradeToolViewModel = new StandardTradeToolViewModel();
-      Thread tradeTread = new Thread(InitiateTrade);
+      Thread tradeTread;
 
       public StandardTradeToolController()
       {
-         infoController = new InfoController(@"C:\Users\rudol\Test.txt");
       }
 
       // GET: DataAnalysisTool
@@ -50,6 +49,7 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
          ExchangeController.ProcessRawData(rawTicker, ref currencyPair, ref amount);
          standardTradeToolViewModel.CurrencyPair = currencyPair.ToString();
          standardTradeToolViewModel.Amount = amount;
+         exchangeDataModel.TickerPrice = amount;
 
          return Json(standardTradeToolViewModel, JsonRequestBehavior.AllowGet);
       }
@@ -71,39 +71,51 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
          tradeOrder.StopLossTolerance = standardTradeToolInputModel.StopLossTolerance;
 
          tradeOrderController.AddTradeOrder(tradeOrder);
-         exchangeDataModel.TradeState = ETradeState.UNINITIALISED;
+         tradeOrder.TradeState = ETradeState.UNINITIALISED;
 
          /* Add info messages */
          infoController.AddInfo(
+            true,
             EInfoMessageDescriptor.EntryGreaterThanTicker,
-            "Entry price is greater than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " Ticker price: " + standardTradeToolViewModel.Amount + " Date/Time: " + DateTime.Now);
+            "Entry price is greater than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " Ticker price: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
          infoController.AddInfo(
+            false,
             EInfoMessageDescriptor.EntryLessThanTicker,
-            "Entry price is less than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " Ticker price: " + standardTradeToolViewModel.Amount + " Date/Time: " + DateTime.Now);
+            "Entry price is less than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " Ticker price: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
          infoController.AddInfo(
+            false,
             EInfoMessageDescriptor.DetectEntrance,
-            "Detecting trade entrance." + " Ticker price: " + standardTradeToolViewModel.Amount + " Date/Time: " + DateTime.Now);
+            "Detecting trade entrance." + " Ticker price: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
          infoController.AddInfo(
+            false,
             EInfoMessageDescriptor.DetectExit,
-            "Detecting trade exit." + " Ticker price: " + standardTradeToolViewModel.Amount + " Date/Time: " + DateTime.Now);
+            "Detecting trade exit." + " Ticker price: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
          infoController.AddInfo(
+            false,
             EInfoMessageDescriptor.BuyOrderEnteredEntryGreaterThanTicker,
-            "Trade was entered (BUY ORDER) with entry originally greater than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + standardTradeToolViewModel.Amount + " Date/Time: " + DateTime.Now);
+            "Trade was entered (BUY ORDER) with entry originally greater than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
          infoController.AddInfo(
+            false,
             EInfoMessageDescriptor.BuyOrderEnteredEntryLessThanTicker,
-            "Trade was entered (BUY ORDER) with entry originally less than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + standardTradeToolViewModel.Amount + " Date/Time: " + DateTime.Now);
+            "Trade was entered (BUY ORDER) with entry originally less than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
          infoController.AddInfo(
+            false,
             EInfoMessageDescriptor.SellOrderEnteredEntryGreaterThanTicker,
-            "Trade was entered (SELL ORDER) with entry originally greater than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + standardTradeToolViewModel.Amount + " Date/Time: " + DateTime.Now);
+            "Trade was entered (SELL ORDER) with entry originally greater than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
          infoController.AddInfo(
+            false,
             EInfoMessageDescriptor.SellOrderEnteredEntryLessThanTicker,
-            "Trade was entered (SELL ORDER) with entry originally less than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + standardTradeToolViewModel.Amount + " Date/Time: " + DateTime.Now);
+            "Trade was entered (SELL ORDER) with entry originally less than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
          infoController.AddInfo(
+            false,
             EInfoMessageDescriptor.ExitedWithProfit,
-            "Trade was exited with a profit." + " Target profit price: " + tradeOrder.ProfitTargetPrice + " TickerPrice: " + standardTradeToolViewModel.Amount + " Date/Time: " + DateTime.Now);
+            "Trade was exited with a profit." + " Target profit price: " + tradeOrder.ProfitTargetPrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
          infoController.AddInfo(
+            false,
             EInfoMessageDescriptor.ExitedWithLoss,
-            "Trade was exited with a loss." + " Stop loss price: " + tradeOrder.StopLossPrice + " TickerPrice: " + standardTradeToolViewModel.Amount + " Date/Time: " + DateTime.Now);
+            "Trade was exited with a loss." + " Stop loss price: " + tradeOrder.StopLossPrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
+
+         tradeTread = new Thread(() => InitiateTrade(tradeOrder));
 
          /* Start new tade thread */
          tradeTread.Start();
@@ -111,28 +123,28 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
          return "Hello from http post web api controller: ";
       }
 
-      private static void InitiateTrade()
+      private static void InitiateTrade(TradeOrder tradeOrder)
       {
-         while (exchangeDataModel.TradeState != ETradeState.EXIT)
+         while (tradeOrder.TradeState != ETradeState.EXIT)
          {
             /* Is trade uninitialised */
-            if (exchangeDataModel.TradeState == ETradeState.UNINITIALISED)
+            if (tradeOrder.TradeState == ETradeState.UNINITIALISED)
             {
                /* If so, initialise */
-               InitialiseTrade();
+               InitialiseTrade(tradeOrder);
             }
 
             /* Is trade inactive */
-            if (exchangeDataModel.TradeState == ETradeState.INACTIVE)
+            if (tradeOrder.TradeState == ETradeState.INACTIVE)
             {
                /* If so, detect entrance */
-               DetectTradeEntrance();
+               DetectTradeEntrance(tradeOrder);
             }
             /* Is trade active */
-            else if (exchangeDataModel.TradeState == ETradeState.ACTIVE)
+            else if (tradeOrder.TradeState == ETradeState.ACTIVE)
             {
                /* If so, detect exit */
-               DetectTradeExit();
+               DetectTradeExit(tradeOrder);
             }
             else
             {
@@ -141,39 +153,39 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
          }
       }
 
-      private static void InitialiseTrade()
+      private static void InitialiseTrade(TradeOrder tradeOrder)
       {
          if (exchangeDataModel.EntryTickerCompare == EEntryTickerCompareType.Undefined)
          {
-            if (exchangeDataModel.EntrancePrice > exchangeDataModel.TickerPrice)
+            if (tradeOrder.EntrancePrice > exchangeDataModel.TickerPrice)
             {
                exchangeDataModel.EntryTickerCompare = EEntryTickerCompareType.EntryGreaterThanTicker;
-               infoController.Print(EInfoMessageDescriptor.EntryGreaterThanTicker);
+               infoController.PrintAllGroups(EInfoMessageDescriptor.EntryGreaterThanTicker);
             }
             else
             {
                exchangeDataModel.EntryTickerCompare = EEntryTickerCompareType.EntryLessThanTicker;
-               infoController.Print(EInfoMessageDescriptor.EntryLessThanTicker);
+               infoController.PrintAllGroups(EInfoMessageDescriptor.EntryLessThanTicker);
             }
          }
-         exchangeDataModel.TradeState = ETradeState.INACTIVE;
+         tradeOrder.TradeState = ETradeState.INACTIVE;
       }
 
-      private static void DetectTradeEntrance()
+      private static void DetectTradeEntrance(TradeOrder tradeOrder)
       {
-         infoController.Print(EInfoMessageDescriptor.DetectEntrance);
+         infoController.PrintAllGroups(EInfoMessageDescriptor.DetectEntrance);
          /*
           When this function is called for the first time, determine if when it is a buy order, whether 
           entrance price is greater that or less that ticker price in order to determine whether tolerance
           should be set to be greater than entrance price or less than entrance price.
           */
-         if (exchangeDataModel.TradeOrderType == ETradeOrderType.BUY)
+         if (tradeOrder.TradeOrderType == ETradeOrderType.BUY)
          {
-            DetectBuyOrderTradeEntrance();
+            DetectBuyOrderTradeEntrance(tradeOrder);
          }
-         else if (exchangeDataModel.TradeOrderType == ETradeOrderType.SELL)
+         else if (tradeOrder.TradeOrderType == ETradeOrderType.SELL)
          {
-            DetectSellOrderTradeEntrance();
+            DetectSellOrderTradeEntrance(tradeOrder);
          }
          else
          {
@@ -181,14 +193,14 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
          }
       }
 
-      private static void DetectTradeExit()
+      private static void DetectTradeExit(TradeOrder tradeOrder)
       {
-         infoController.Print(EInfoMessageDescriptor.DetectExit);
-         DetectProfitTarget();
-         DetectStopLoss();
+         infoController.PrintAllGroups(EInfoMessageDescriptor.DetectExit);
+         DetectProfitTarget(tradeOrder);
+         DetectStopLoss(tradeOrder);
       }
 
-      private static void DetectBuyOrderTradeEntrance()
+      private static void DetectBuyOrderTradeEntrance(TradeOrder tradeOrder)
       {
          /* 
           * E.g. I want to buy 1000 units at 10.00 
@@ -199,19 +211,19 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
          if (exchangeDataModel.EntryTickerCompare == EEntryTickerCompareType.EntryGreaterThanTicker)
          {
             /* If so, determine whether trade should be entered */
-            if ((exchangeDataModel.TickerPrice >= exchangeDataModel.EntrancePrice) &&
-                (exchangeDataModel.TickerPrice <= (exchangeDataModel.EntrancePrice +
-                 exchangeDataModel.EntranceTolerance)))
+            if ((exchangeDataModel.TickerPrice >= tradeOrder.EntrancePrice) &&
+                (exchangeDataModel.TickerPrice <= (tradeOrder.EntrancePrice +
+                 tradeOrder.EntranceTolerance)))
             {
-               infoController.Print(EInfoMessageDescriptor.BuyOrderEnteredEntryGreaterThanTicker);
+               infoController.PrintAllGroups(EInfoMessageDescriptor.BuyOrderEnteredEntryGreaterThanTicker);
                /* Enter trade */
-               exchangeDataModel.TradeState = ETradeState.ACTIVE;
+               tradeOrder.TradeState = ETradeState.ACTIVE;
                exchangeDataModel.EntranceDateTime = DateTime.Now;
             }
             else
             {
                /* Trade remains inactive */
-               exchangeDataModel.TradeState = ETradeState.INACTIVE;
+               tradeOrder.TradeState = ETradeState.INACTIVE;
             }
          }
          /* 
@@ -223,19 +235,19 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
          else if (exchangeDataModel.EntryTickerCompare == EEntryTickerCompareType.EntryLessThanTicker)
          {
             /* If so, determine whether trade should be entered */
-            if ((exchangeDataModel.TickerPrice >= exchangeDataModel.EntrancePrice) &&
-                (exchangeDataModel.TickerPrice <= (exchangeDataModel.EntrancePrice +
-                 exchangeDataModel.EntranceTolerance)))
+            if ((exchangeDataModel.TickerPrice >= tradeOrder.EntrancePrice) &&
+                (exchangeDataModel.TickerPrice <= (tradeOrder.EntrancePrice +
+                 tradeOrder.EntranceTolerance)))
             {
-               infoController.Print(EInfoMessageDescriptor.BuyOrderEnteredEntryLessThanTicker);
+               infoController.PrintAllGroups(EInfoMessageDescriptor.BuyOrderEnteredEntryLessThanTicker);
                /* Enter trade */
-               exchangeDataModel.TradeState = ETradeState.ACTIVE;
+               tradeOrder.TradeState = ETradeState.ACTIVE;
                exchangeDataModel.EntranceDateTime = DateTime.Now;
             }
             else
             {
                /* Trade remains inactive */
-               exchangeDataModel.TradeState = ETradeState.INACTIVE;
+               tradeOrder.TradeState = ETradeState.INACTIVE;
             }
          }
          else
@@ -244,7 +256,7 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
          }
       }
 
-      private static void DetectSellOrderTradeEntrance()
+      private static void DetectSellOrderTradeEntrance(TradeOrder tradeOrder)
       {
          /* 
           * E.g. I want to sell 1000 units at 10.00 
@@ -255,19 +267,19 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
          if (exchangeDataModel.EntryTickerCompare == EEntryTickerCompareType.EntryGreaterThanTicker)
          {
             /* If so, determine whether trade should be entered */
-            if ((exchangeDataModel.TickerPrice >= (exchangeDataModel.EntrancePrice -
-                 exchangeDataModel.EntranceTolerance)) &&
-                (exchangeDataModel.TickerPrice <= exchangeDataModel.EntrancePrice))
+            if ((exchangeDataModel.TickerPrice >= (tradeOrder.EntrancePrice -
+                 tradeOrder.EntranceTolerance)) &&
+                (exchangeDataModel.TickerPrice <= tradeOrder.EntrancePrice))
             {
-               infoController.Print(EInfoMessageDescriptor.SellOrderEnteredEntryGreaterThanTicker);
+               infoController.PrintAllGroups(EInfoMessageDescriptor.SellOrderEnteredEntryGreaterThanTicker);
                /* Enter trade */
-               exchangeDataModel.TradeState = ETradeState.ACTIVE;
-               exchangeDataModel.EntranceDateTime = DateTime.Now;
+               tradeOrder.TradeState = ETradeState.ACTIVE;
+               tradeOrder.EntranceDateTime = DateTime.Now;
             }
             else
             {
                /* Trade remains inactive */
-               exchangeDataModel.TradeState = ETradeState.INACTIVE;
+               tradeOrder.TradeState = ETradeState.INACTIVE;
             }
          }
          /* 
@@ -279,18 +291,18 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
          else if (exchangeDataModel.EntryTickerCompare == EEntryTickerCompareType.EntryLessThanTicker)
          {
             /* If so, determine whether trade should be entered */
-            if ((exchangeDataModel.TickerPrice >= exchangeDataModel.EntrancePrice) &&
-                (exchangeDataModel.TickerPrice <= (exchangeDataModel.EntrancePrice + exchangeDataModel.EntranceTolerance)))
+            if ((exchangeDataModel.TickerPrice >= tradeOrder.EntrancePrice) &&
+                (exchangeDataModel.TickerPrice <= (tradeOrder.EntrancePrice + tradeOrder.EntranceTolerance)))
             {
-               infoController.Print(EInfoMessageDescriptor.SellOrderEnteredEntryLessThanTicker);
+               infoController.PrintAllGroups(EInfoMessageDescriptor.SellOrderEnteredEntryLessThanTicker);
                /* Enter trade */
-               exchangeDataModel.TradeState = ETradeState.ACTIVE;
-               exchangeDataModel.EntranceDateTime = DateTime.Now;
+               tradeOrder.TradeState = ETradeState.ACTIVE;
+               tradeOrder.EntranceDateTime = DateTime.Now;
             }
             else
             {
                /* Trade remains inactive */
-               exchangeDataModel.TradeState = ETradeState.INACTIVE;
+               tradeOrder.TradeState = ETradeState.INACTIVE;
             }
          }
          else
@@ -299,26 +311,26 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
          }
       }
 
-      private static void DetectProfitTarget()
+      private static void DetectProfitTarget(TradeOrder tradeOrder)
       {
-         if (exchangeDataModel.TradeState == ETradeState.ACTIVE)
+         if (tradeOrder.TradeState == ETradeState.ACTIVE)
          {
-            if (exchangeDataModel.TickerPrice >= exchangeDataModel.ProfitTargetPrice)
+            if (exchangeDataModel.TickerPrice >= tradeOrder.ProfitTargetPrice)
             {
-               exchangeDataModel.TradeState = ETradeState.EXIT;
-               infoController.Print(EInfoMessageDescriptor.ExitedWithProfit);
+               tradeOrder.TradeState = ETradeState.EXIT;
+               infoController.PrintAllGroups(EInfoMessageDescriptor.ExitedWithProfit);
             }
          }
       }
 
-      private static void DetectStopLoss()
+      private static void DetectStopLoss(TradeOrder tradeOrder)
       {
-         if (exchangeDataModel.TradeState == ETradeState.ACTIVE)
+         if (tradeOrder.TradeState == ETradeState.ACTIVE)
          {
-            if (exchangeDataModel.TickerPrice <= exchangeDataModel.StopLossPrice)
+            if (exchangeDataModel.TickerPrice <= tradeOrder.StopLossPrice)
             {
-               exchangeDataModel.TradeState = ETradeState.EXIT;
-               infoController.Print(EInfoMessageDescriptor.ExitedWithLoss);
+               tradeOrder.TradeState = ETradeState.EXIT;
+               infoController.PrintAllGroups(EInfoMessageDescriptor.ExitedWithLoss);
             }
          }
       }
