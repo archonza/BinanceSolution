@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PublicAPIToolkit.Models.ViewModels.Toolkit.Tools
 {
-   public class StandardTradeToolViewModel
+   public class TradeToolViewModel
    {
       //public string Ticker { get; set; }
       public string CurrencyPair { get; set; }

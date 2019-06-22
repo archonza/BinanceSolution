@@ -79,11 +79,11 @@
    </style>
 </head>
 @{
-   ViewBag.Title = "StandardTradeTool";
+   ViewBag.Title = "TradeTool";
    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Standard Trade Tool</h2>
+<h2>Trade Tool</h2>
 
 &nbsp;
 <div class="row">
@@ -280,14 +280,14 @@
             //               var ticker = { Id: nextId(), RawData: connnectionString }
             $.ajax({
                type: 'POST',
-               url: 'http://localhost:52609/StandardTradeTool/Refresh',
+               url: 'http://localhost:52609/TradeTool/Refresh',
                data: JSON.stringify(userInput),
                contentType: 'application/json; charset=utf-8',
                dataType: 'json',
                success: function (data) { console.log(data); }
             }).done(function (response) {
-               var standardTradeToolViewModel = response;
-               var ticker = standardTradeToolViewModel.CurrencyPair + " : " + standardTradeToolViewModel.Amount;
+               var tradeToolViewModel = response;
+               var ticker = tradeToolViewModel.CurrencyPair + " : " + tradeToolViewModel.Amount;
                document.getElementById("ticker-data").innerHTML = ticker;
             });
             //}
@@ -312,7 +312,7 @@
          }
          $.ajax({
             type: 'POST',
-            url: 'http://localhost:52609/StandardTradeTool/SubmitUserInput',
+            url: 'http://localhost:52609/TradeTool/SubmitUserInput',
             data: JSON.stringify(userInput),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json',

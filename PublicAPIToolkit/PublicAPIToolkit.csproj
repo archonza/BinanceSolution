@@ -185,7 +185,7 @@
     <Compile Include="Controllers\ExchangeController.cs" />
     <Compile Include="Controllers\InfoController.cs" />
     <Compile Include="Controllers\RestClientController.cs" />
-    <Compile Include="Controllers\Toolkit\Tools\StandardTradeToolController.cs" />
+    <Compile Include="Controllers\Toolkit\Tools\TradeToolController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\Toolkit\ToolkitController.cs" />
     <Compile Include="Controllers\TradeOrderController.cs" />
@@ -206,14 +206,14 @@
     <Compile Include="Models\DomainModels\Trade\ETradeState.cs" />
     <Compile Include="Models\InfoModel.cs" />
     <Compile Include="Models\InputModels\Toolkit\ToolkitInputModel.cs" />
-    <Compile Include="Models\InputModels\Toolkit\Tools\StandardTradeToolInputModel.cs" />
+    <Compile Include="Models\InputModels\Toolkit\Tools\TradeToolInputModel.cs" />
     <Compile Include="Models\ViewModels\DebugInformation.cs" />
     <Compile Include="Models\ViewModels\Ticker.cs" />
     <Compile Include="Models\TradeDataModel.cs" />
     <Compile Include="Models\TickerModel.cs" />
     <Compile Include="Models\UserInputModel.cs" />
     <Compile Include="Models\ViewModels\Toolkit\ToolkitViewModel.cs" />
-    <Compile Include="Models\ViewModels\Toolkit\Tools\StandardTradeToolViewModel.cs" />
+    <Compile Include="Models\ViewModels\Toolkit\Tools\TradeToolViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -271,7 +271,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Toolkit\Index.cshtml" />
-    <Content Include="Views\StandardTradeTool\Index.cshtml" />
+    <Content Include="Views\TradeTool\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

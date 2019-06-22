@@ -5,7 +5,7 @@ using System.Web;
 
 namespace PublicAPIToolkit.Models.InputModels.Toolkit.Tools
 {
-   public class StandardTradeToolInputModel
+   public class TradeToolInputModel
    {
       public String EndPoint { get; set; } = String.Empty;
       public UInt32 HttpMethod { get; set; } = 0;
