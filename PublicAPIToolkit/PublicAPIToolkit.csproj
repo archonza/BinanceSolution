@@ -186,7 +186,8 @@
     <Compile Include="Controllers\InfoController.cs" />
     <Compile Include="Controllers\RestClientController.cs" />
     <Compile Include="Controllers\Toolkit\Tools\StandardTradeToolController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="CustomRazorViewEngine.cs" />
+    <Compile Include="Home\Controllers\HomeController.cs" />
     <Compile Include="Controllers\Toolkit\ToolkitController.cs" />
     <Compile Include="Controllers\TradeOrderController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -265,16 +266,17 @@
     </Content>
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="Content\Site.css" />
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="_ViewStart.cshtml" />
+    <Content Include="Home\Views\Index.cshtml" />
+    <Content Include="Shared\Views\Error.cshtml" />
+    <Content Include="Shared\Views\_Layout.cshtml" />
     <Content Include="Views\Toolkit\Index.cshtml" />
     <Content Include="Views\StandardTradeTool\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Home\Models\" />
+    <Folder Include="Views\Home\" />
     <Folder Include="Views\Information\" />
     <Folder Include="Views\Ticker\" />
   </ItemGroup>
