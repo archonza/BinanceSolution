@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace PublicAPIToolkit.Controllers
+namespace PublicAPIToolkit.Home.Controllers
 {
     public class HomeController : Controller
     {

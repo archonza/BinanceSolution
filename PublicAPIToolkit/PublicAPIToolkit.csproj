@@ -182,39 +182,37 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\ExchangeController.cs" />
-    <Compile Include="Controllers\InfoController.cs" />
-    <Compile Include="Controllers\RestClientController.cs" />
-    <Compile Include="Controllers\Toolkit\Tools\StandardTradeToolController.cs" />
+    <Compile Include="Exchange\Controllers\ExchangeController.cs" />
+    <Compile Include="Simulator\Controllers\SimulatorController.cs" />
+    <Compile Include="Rest\Controllers\RestClientController.cs" />
+    <Compile Include="TradeTool\Controllers\TradeToolController.cs" />
     <Compile Include="CustomRazorViewEngine.cs" />
     <Compile Include="Home\Controllers\HomeController.cs" />
-    <Compile Include="Controllers\Toolkit\ToolkitController.cs" />
-    <Compile Include="Controllers\TradeOrderController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Toolkit\Controllers\ToolkitController.cs" />
+    <Compile Include="Exchange\Controllers\ExchangeOrderController.cs" />
+    <Compile Include="Values\Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\DomainModels\Trade\Exchange.cs" />
-    <Compile Include="Models\DomainModels\Rest\EHttpMethod.cs" />
-    <Compile Include="Models\DomainModels\Rest\RestClient.cs" />
-    <Compile Include="Models\DomainModels\Trade\TradeOrder.cs" />
-    <Compile Include="Models\DomainModels\Trade\ECurrencyPair.cs" />
-    <Compile Include="Models\DomainModels\Trade\EEntryTickerCompareType.cs" />
-    <Compile Include="Models\EInfoMessageDescriptor.cs" />
-    <Compile Include="Models\EProfitTargetTolerance.cs" />
-    <Compile Include="Models\EStopLossTolerance.cs" />
-    <Compile Include="Models\DomainModels\Trade\ETradeOrderType.cs" />
-    <Compile Include="Models\DomainModels\Trade\ETradeState.cs" />
-    <Compile Include="Models\InfoModel.cs" />
-    <Compile Include="Models\InputModels\Toolkit\ToolkitInputModel.cs" />
-    <Compile Include="Models\InputModels\Toolkit\Tools\StandardTradeToolInputModel.cs" />
-    <Compile Include="Models\ViewModels\DebugInformation.cs" />
-    <Compile Include="Models\ViewModels\Ticker.cs" />
-    <Compile Include="Models\TradeDataModel.cs" />
-    <Compile Include="Models\TickerModel.cs" />
-    <Compile Include="Models\UserInputModel.cs" />
-    <Compile Include="Models\ViewModels\Toolkit\ToolkitViewModel.cs" />
-    <Compile Include="Models\ViewModels\Toolkit\Tools\StandardTradeToolViewModel.cs" />
+    <Compile Include="Exchange\Models\Exchange.cs" />
+    <Compile Include="Rest\Models\EHttpMethod.cs" />
+    <Compile Include="Rest\Models\RestClient.cs" />
+    <Compile Include="Exchange\Models\ExchangeOrder.cs" />
+    <Compile Include="Exchange\Models\ECurrencyPair.cs" />
+    <Compile Include="Exchange\Models\EEntryTickerCompareType.cs" />
+    <Compile Include="Simulator\Models\ESimulatorMessageDescriptor.cs" />
+    <Compile Include="Exchange\Models\EProfitTargetTolerance.cs" />
+    <Compile Include="Exchange\Models\EStopLossTolerance.cs" />
+    <Compile Include="Exchange\Models\EExchangeOrderType.cs" />
+    <Compile Include="Exchange\Models\EExchangeOrderStateState.cs" />
+    <Compile Include="Simulator\Models\SimulatorModel.cs" />
+    <Compile Include="Toolkit\Models\ToolkitInputModel.cs" />
+    <Compile Include="TradeTool\Models\TradeToolInputModel.cs" />
+    <Compile Include="Exchange\Models\TickerViewModel.cs" />
+    <Compile Include="Exchange\Models\TradeDataModel.cs" />
+    <Compile Include="Exchange\Models\TickerModel.cs" />
+    <Compile Include="Toolkit\Models\ToolkitViewModel.cs" />
+    <Compile Include="TradeTool\Models\TradeToolViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -226,7 +224,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Models\DomainModels\Readme.txt" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
@@ -270,15 +267,17 @@
     <Content Include="Home\Views\Index.cshtml" />
     <Content Include="Shared\Views\Error.cshtml" />
     <Content Include="Shared\Views\_Layout.cshtml" />
-    <Content Include="Views\Toolkit\Index.cshtml" />
-    <Content Include="Views\StandardTradeTool\Index.cshtml" />
+    <Content Include="Toolkit\Views\Index.cshtml" />
+    <Content Include="TradeTool\Views\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Exchange\Views\" />
     <Folder Include="Home\Models\" />
-    <Folder Include="Views\Home\" />
-    <Folder Include="Views\Information\" />
-    <Folder Include="Views\Ticker\" />
+    <Folder Include="Login\" />
+    <Folder Include="Registration\" />
+    <Folder Include="Simulator\Views\" />
+    <Folder Include="User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

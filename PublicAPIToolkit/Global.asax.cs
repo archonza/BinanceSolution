@@ -1,5 +1,4 @@
 ﻿using PublicAPIToolkit.Controllers;
-using PublicAPIToolkit.Models.DomainModels.Rest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
