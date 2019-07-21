@@ -8,22 +8,22 @@ namespace PublicAPIToolkit.Simulator.Controllers
 {
     public class SimulatorController
     {
-      private SimulatorModel infoModel;
+      private SimulatorModel simulatorModel;
       private string FullFilePath { get; set; }
       private Object threadLock = new Object();
 
       public SimulatorController(string fullFilePath)
       {
          FullFilePath = fullFilePath;
-         infoModel = new SimulatorModel();
+         simulatorModel = new SimulatorModel();
       }
 
-      public void AddInfo(bool nextGroup, ESimulatorMessageDescriptor infoMessageDescriptor, string message)
+      public void AddSimulator(bool nextGroup, ESimulatorMessageDescriptor simulatorMessageDescriptor, string message)
       {
-         infoModel.infoMessageList.Add(new SimulatorMessage(nextGroup, infoMessageDescriptor, message));
+         simulatorModel.simulatorMessageList.Add(new SimulatorMessage(nextGroup, simulatorMessageDescriptor, message));
       }
 
-      public void Print(int infoMessageGroupId, ESimulatorMessageDescriptor infoMessageDescriptor)
+      public void Print(int simulatorMessageGroupId, ESimulatorMessageDescriptor simulatorMessageDescriptor)
       {
          FileStream fileStream = null;
          try
@@ -37,7 +37,7 @@ namespace PublicAPIToolkit.Simulator.Controllers
             {
                if (FullFilePath != null)
                {
-                  file.WriteLine(infoModel.infoMessageList.Find(x => (x.InfoMessageGroupId == infoMessageGroupId) && (x.InfoMessageDescriptor == infoMessageDescriptor)).Message);
+                  file.WriteLine(simulatorModel.simulatorMessageList.Find(x => (x.SimulatorMessageGroupId == simulatorMessageGroupId) && (x.SimulatorMessageDescriptor == simulatorMessageDescriptor)).Message);
                }
             }
          }
@@ -47,11 +47,10 @@ namespace PublicAPIToolkit.Simulator.Controllers
             {
                fileStream.Dispose();
             }
-
          }
       }
 
-      public void PrintAllGroups(ESimulatorMessageDescriptor infoMessageDescriptor)
+      public void PrintAllGroups(ESimulatorMessageDescriptor simulatorMessageDescriptor)
       {
          lock (threadLock)
          {
@@ -68,9 +67,9 @@ namespace PublicAPIToolkit.Simulator.Controllers
                {
                   if (FullFilePath != null)
                   {
-                     for (int infoMessageGroupId = 0; infoMessageGroupId < GetNumberOfGroups(); infoMessageGroupId++)
+                     for (int simulatorMessageGroupId = 0; simulatorMessageGroupId < GetNumberOfGroups(); simulatorMessageGroupId++)
                      {
-                        file.WriteLine(infoModel.infoMessageList.Find(x => (x.InfoMessageGroupId == infoMessageGroupId) && (x.InfoMessageDescriptor == infoMessageDescriptor)).Message);
+                        file.WriteLine(simulatorModel.simulatorMessageList.Find(x => (x.SimulatorMessageGroupId == simulatorMessageGroupId) && (x.SimulatorMessageDescriptor == simulatorMessageDescriptor)).Message);
                      }
                   }
                }
@@ -88,7 +87,7 @@ namespace PublicAPIToolkit.Simulator.Controllers
 
       public int GetNumberOfGroups()
       {
-         return (infoModel.infoMessageList[infoModel.infoMessageList.Count - 1].InfoMessageGroupId) + 1;
+         return (simulatorModel.simulatorMessageList[simulatorModel.simulatorMessageList.Count - 1].SimulatorMessageGroupId) + 1;
       }
    }
 }

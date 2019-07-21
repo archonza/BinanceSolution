@@ -183,6 +183,10 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Exchange\Controllers\ExchangeController.cs" />
+    <Compile Include="Login\Controllers\LoginController.cs" />
+    <Compile Include="Login\Models\LoginInputModel.cs" />
+    <Compile Include="Registration\Controllers\RegistrationController.cs" />
+    <Compile Include="Registration\Models\RegistrationInputModel.cs" />
     <Compile Include="Simulator\Controllers\SimulatorController.cs" />
     <Compile Include="Rest\Controllers\RestClientController.cs" />
     <Compile Include="TradeTool\Controllers\TradeToolController.cs" />
@@ -190,6 +194,8 @@
     <Compile Include="Home\Controllers\HomeController.cs" />
     <Compile Include="Toolkit\Controllers\ToolkitController.cs" />
     <Compile Include="Exchange\Controllers\ExchangeOrderController.cs" />
+    <Compile Include="User\Controllers\UserController.cs" />
+    <Compile Include="User\Models\User.cs" />
     <Compile Include="Values\Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -248,6 +254,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Registration\Views\Index.cshtml" />
+    <Content Include="Login\Views\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -272,12 +280,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Exchange\Views\" />
+    <Folder Include="Exchange\Views\Login\" />
+    <Folder Include="Exchange\Views\Registration\" />
     <Folder Include="Home\Models\" />
-    <Folder Include="Login\" />
-    <Folder Include="Registration\" />
     <Folder Include="Simulator\Views\" />
-    <Folder Include="User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

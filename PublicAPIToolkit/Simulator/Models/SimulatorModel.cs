@@ -9,14 +9,14 @@ namespace PublicAPIToolkit.Simulator.Models
    {
       public class SimulatorMessage
       {
-         public int InfoMessageGroupId { get; private set; }
-         public ESimulatorMessageDescriptor InfoMessageDescriptor { get; set; }
+         public int SimulatorMessageGroupId { get; private set; }
+         public ESimulatorMessageDescriptor SimulatorMessageDescriptor { get; set; }
          public string Message { get; set; }
-         private static int nextInfoMessageGroupId = -1;
+         private static int nextSimulatorMessageGroupId = -1;
 
-         public SimulatorMessage(bool nextGroup, ESimulatorMessageDescriptor infoMessageDescriptor, string message)
+         public SimulatorMessage(bool nextGroup, ESimulatorMessageDescriptor simulatorMessageDescriptor, string message)
          {
-            InfoMessageDescriptor = infoMessageDescriptor;
+            SimulatorMessageDescriptor = simulatorMessageDescriptor;
             Message = message;
             if (nextGroup == true)
             {
@@ -26,15 +26,15 @@ namespace PublicAPIToolkit.Simulator.Models
 
          private void NextGroup()
          {
-            nextInfoMessageGroupId++;
-            InfoMessageGroupId = nextInfoMessageGroupId;
+            nextSimulatorMessageGroupId++;
+            SimulatorMessageGroupId = nextSimulatorMessageGroupId;
          }
       }
-      public List<SimulatorMessage> infoMessageList;
+      public List<SimulatorMessage> simulatorMessageList;
 
       public SimulatorModel()
       {
-         infoMessageList = new List<SimulatorMessage>();
+         simulatorMessageList = new List<SimulatorMessage>();
       }
    }
 }

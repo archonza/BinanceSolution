@@ -18,11 +18,32 @@
                 </button>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
-                </ul>
-            </div>
+               <ul class="nav navbar-nav">
+                  <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+                  <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+               </ul>
+               <ul class="nav navbar-nav navbar-right">
+                  <li style="vertical-align:middle">
+                     <table>
+                        <colgroup>
+                           <col span="3" style="column-gap: 5px"/>
+                        </colgroup>
+                        <tr>
+                        <th style="color:darkgray; font-size: 10px">Username</th>
+                        <th style="color:darkgray; font-size: 10px; padding-left: 5px">Password</th>
+                        <th></th>
+                        </tr>
+                        <tr>
+                           <td><input type="text" name="uname" required style="font-size: 12px; width: 100px"></td>
+                           <td style="padding-left: 5px"><input type="password" name="psw" required style="font-size: 12px; width: 100px"></td>
+                        </tr>
+                     </table>
+                  &nbsp;
+                  </li>
+                  <li>@Html.ActionLink("Login", "Index", "Home", new { area = "" }, null)</li>
+                  <li>@Html.ActionLink("Register", "Index", "Registration", new { area = "" }, null)</li>
+               </ul>
+</div>
         </div>
     </div>
     <div class="container body-content">

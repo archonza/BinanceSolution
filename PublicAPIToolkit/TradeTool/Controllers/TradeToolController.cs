@@ -17,7 +17,7 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
    public class TradeToolController : Controller
    {
       public static TradeDataModel exchangeDataModel = new TradeDataModel();
-      public static SimulatorController infoController = new SimulatorController(@"C:\Users\za120317\Test.txt");
+      public static SimulatorController simulatorController = new SimulatorController(@"C:\Users\za120317\Test.txt");
       public ExchangeOrderController tradeOrderController = new ExchangeOrderController();
       private RestClientController restClientController;
       private TradeToolViewModel tradeToolViewModel = new TradeToolViewModel();
@@ -76,44 +76,44 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
          tradeOrder.TradeState = EExchangeOrderState.UNINITIALISED;
          lock (threadLock)
          {
-            /* Add info messages */
-            infoController.AddInfo(
+            /* Add simulator messages */
+            simulatorController.AddSimulator(
                true,
                ESimulatorMessageDescriptor.EntryGreaterThanTicker,
                "Entry price is greater than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " Ticker price: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-            infoController.AddInfo(
+            simulatorController.AddSimulator(
                false,
                ESimulatorMessageDescriptor.EntryLessThanTicker,
                "Entry price is less than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " Ticker price: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-            infoController.AddInfo(
+            simulatorController.AddSimulator(
                false,
                ESimulatorMessageDescriptor.DetectEntrance,
                "Detecting trade entrance." + " Ticker price: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-            infoController.AddInfo(
+            simulatorController.AddSimulator(
                false,
                ESimulatorMessageDescriptor.DetectExit,
                "Detecting trade exit." + " Ticker price: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-            infoController.AddInfo(
+            simulatorController.AddSimulator(
                false,
                ESimulatorMessageDescriptor.BuyOrderEnteredEntryGreaterThanTicker,
                "Trade was entered (BUY ORDER) with entry originally greater than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-            infoController.AddInfo(
+            simulatorController.AddSimulator(
                false,
                ESimulatorMessageDescriptor.BuyOrderEnteredEntryLessThanTicker,
                "Trade was entered (BUY ORDER) with entry originally less than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-            infoController.AddInfo(
+            simulatorController.AddSimulator(
                false,
                ESimulatorMessageDescriptor.SellOrderEnteredEntryGreaterThanTicker,
                "Trade was entered (SELL ORDER) with entry originally greater than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-            infoController.AddInfo(
+            simulatorController.AddSimulator(
                false,
                ESimulatorMessageDescriptor.SellOrderEnteredEntryLessThanTicker,
                "Trade was entered (SELL ORDER) with entry originally less than ticker." + " Entrance price: " + tradeOrder.EntrancePrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-            infoController.AddInfo(
+            simulatorController.AddSimulator(
                false,
                ESimulatorMessageDescriptor.ExitedWithProfit,
                "Trade was exited with a profit." + " Target profit price: " + tradeOrder.ProfitTargetPrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
-            infoController.AddInfo(
+            simulatorController.AddSimulator(
                false,
                ESimulatorMessageDescriptor.ExitedWithLoss,
                "Trade was exited with a loss." + " Stop loss price: " + tradeOrder.StopLossPrice + " TickerPrice: " + exchangeDataModel.TickerPrice + " Date/Time: " + DateTime.Now);
@@ -163,12 +163,12 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
             if (tradeOrder.EntrancePrice > exchangeDataModel.TickerPrice)
             {
                exchangeDataModel.EntryTickerCompare = EEntryTickerCompareType.EntryGreaterThanTicker;
-               infoController.PrintAllGroups(ESimulatorMessageDescriptor.EntryGreaterThanTicker);
+               simulatorController.PrintAllGroups(ESimulatorMessageDescriptor.EntryGreaterThanTicker);
             }
             else
             {
                exchangeDataModel.EntryTickerCompare = EEntryTickerCompareType.EntryLessThanTicker;
-               infoController.PrintAllGroups(ESimulatorMessageDescriptor.EntryLessThanTicker);
+               simulatorController.PrintAllGroups(ESimulatorMessageDescriptor.EntryLessThanTicker);
             }
          }
          tradeOrder.TradeState = EExchangeOrderState.INACTIVE;
@@ -176,7 +176,7 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
 
       private static void DetectTradeEntrance(ExchangeOrder tradeOrder)
       {
-         infoController.PrintAllGroups(ESimulatorMessageDescriptor.DetectEntrance);
+         simulatorController.PrintAllGroups(ESimulatorMessageDescriptor.DetectEntrance);
          /*
           When this function is called for the first time, determine if when it is a buy order, whether 
           entrance price is greater that or less that ticker price in order to determine whether tolerance
@@ -198,7 +198,7 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
 
       private static void DetectTradeExit(ExchangeOrder tradeOrder)
       {
-         infoController.PrintAllGroups(ESimulatorMessageDescriptor.DetectExit);
+         simulatorController.PrintAllGroups(ESimulatorMessageDescriptor.DetectExit);
          DetectProfitTarget(tradeOrder);
          DetectStopLoss(tradeOrder);
       }
@@ -218,7 +218,7 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
                 (exchangeDataModel.TickerPrice <= (tradeOrder.EntrancePrice +
                  tradeOrder.EntranceTolerance)))
             {
-               infoController.PrintAllGroups(ESimulatorMessageDescriptor.BuyOrderEnteredEntryGreaterThanTicker);
+               simulatorController.PrintAllGroups(ESimulatorMessageDescriptor.BuyOrderEnteredEntryGreaterThanTicker);
                /* Enter trade */
                tradeOrder.TradeState = EExchangeOrderState.ACTIVE;
                exchangeDataModel.EntranceDateTime = DateTime.Now;
@@ -242,7 +242,7 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
                 (exchangeDataModel.TickerPrice <= (tradeOrder.EntrancePrice +
                  tradeOrder.EntranceTolerance)))
             {
-               infoController.PrintAllGroups(ESimulatorMessageDescriptor.BuyOrderEnteredEntryLessThanTicker);
+               simulatorController.PrintAllGroups(ESimulatorMessageDescriptor.BuyOrderEnteredEntryLessThanTicker);
                /* Enter trade */
                tradeOrder.TradeState = EExchangeOrderState.ACTIVE;
                exchangeDataModel.EntranceDateTime = DateTime.Now;
@@ -274,7 +274,7 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
                  tradeOrder.EntranceTolerance)) &&
                 (exchangeDataModel.TickerPrice <= tradeOrder.EntrancePrice))
             {
-               infoController.PrintAllGroups(ESimulatorMessageDescriptor.SellOrderEnteredEntryGreaterThanTicker);
+               simulatorController.PrintAllGroups(ESimulatorMessageDescriptor.SellOrderEnteredEntryGreaterThanTicker);
                /* Enter trade */
                tradeOrder.TradeState = EExchangeOrderState.ACTIVE;
                tradeOrder.EntranceDateTime = DateTime.Now;
@@ -297,7 +297,7 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
             if ((exchangeDataModel.TickerPrice >= tradeOrder.EntrancePrice) &&
                 (exchangeDataModel.TickerPrice <= (tradeOrder.EntrancePrice + tradeOrder.EntranceTolerance)))
             {
-               infoController.PrintAllGroups(ESimulatorMessageDescriptor.SellOrderEnteredEntryLessThanTicker);
+               simulatorController.PrintAllGroups(ESimulatorMessageDescriptor.SellOrderEnteredEntryLessThanTicker);
                /* Enter trade */
                tradeOrder.TradeState = EExchangeOrderState.ACTIVE;
                tradeOrder.EntranceDateTime = DateTime.Now;
@@ -321,7 +321,7 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
             if (exchangeDataModel.TickerPrice >= tradeOrder.ProfitTargetPrice)
             {
                tradeOrder.TradeState = EExchangeOrderState.EXIT;
-               infoController.PrintAllGroups(ESimulatorMessageDescriptor.ExitedWithProfit);
+               simulatorController.PrintAllGroups(ESimulatorMessageDescriptor.ExitedWithProfit);
             }
          }
       }
@@ -333,7 +333,7 @@ namespace PublicAPIToolkit.Controllers.Toolkit.Tools
             if (exchangeDataModel.TickerPrice <= tradeOrder.StopLossPrice)
             {
                tradeOrder.TradeState = EExchangeOrderState.EXIT;
-               infoController.PrintAllGroups(ESimulatorMessageDescriptor.ExitedWithLoss);
+               simulatorController.PrintAllGroups(ESimulatorMessageDescriptor.ExitedWithLoss);
             }
          }
       }
