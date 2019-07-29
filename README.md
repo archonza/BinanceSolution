@@ -24,4 +24,4 @@ If anyone wants to contribute to this project they can do so as follows:
    - Emulate/Run/Debug using IS (Google Chrome/MS Internet Explorer/MS Edge/Mozilla -- Tested using Google Chrome and MS Edge)
 - Push feature branch to remote feature branch..
 - Create a pull request in Git from "feature/#X-Xxxx-xxx" branch to "develop"
-For any futher information please visit the project wiki page: https://github.com/archonza/BinanceSolution/wiki, or email me at: rudolferasmus@gmail.com+binsolrepo
+For any futher information please visit the project wiki page: https://github.com/archonza/BinanceSolution/wiki, or email me at: "rudolferasmus@gmail.com+binsolrepo"
