@@ -1,0 +1,12 @@
+﻿@{
+   ViewBag.Title = "Confirmation";
+   Layout = "~/Shared/Views/_Layout.cshtml";
+}
+
+
+<p><h3>An email was send to your email address you've specified during registration.</h3></p>
+<p>Please follow the confirmation link in the email to conclude registration.<p>
+
+<p>Email functionality does not yet work</p>
+<p>Please follow the link below to force success.</p>
+<p><a class="btn btn-default" href="@Url.Action("Success", "Registration")#Registration">Registration &raquo;</a></p>

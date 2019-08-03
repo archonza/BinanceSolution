@@ -186,7 +186,10 @@
     <Compile Include="Login\Controllers\LoginController.cs" />
     <Compile Include="Login\Models\LoginInputModel.cs" />
     <Compile Include="Registration\Controllers\RegistrationController.cs" />
+    <Compile Include="Registration\Models\ERegistrationStatus.cs" />
+    <Compile Include="Registration\Models\Registration.cs" />
     <Compile Include="Registration\Models\RegistrationInputModel.cs" />
+    <Compile Include="Registration\Models\RegistrationViewModel.cs" />
     <Compile Include="Simulator\Controllers\SimulatorController.cs" />
     <Compile Include="Rest\Controllers\RestClientController.cs" />
     <Compile Include="TradeTool\Controllers\TradeToolController.cs" />
@@ -230,6 +233,8 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Registration\Views\Confirmation.cshtml" />
+    <None Include="Registration\Views\Success.cshtml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
