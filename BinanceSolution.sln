@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublicAPIToolkit", "PublicA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublicAPIToolkit.Tests", "PublicAPIToolkit.Tests\PublicAPIToolkit.Tests.csproj", "{B9A6B7E5-4CCC-434A-8291-B2E4436C4424}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PublicAPIToolkit.DB", "PublicAPIToolkitDB\PublicAPIToolkit.DB.sqlproj", "{0B69400E-A05D-4547-8C8C-4A06E16A22F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,12 @@ Global
 		{B9A6B7E5-4CCC-434A-8291-B2E4436C4424}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B9A6B7E5-4CCC-434A-8291-B2E4436C4424}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B9A6B7E5-4CCC-434A-8291-B2E4436C4424}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B69400E-A05D-4547-8C8C-4A06E16A22F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B69400E-A05D-4547-8C8C-4A06E16A22F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B69400E-A05D-4547-8C8C-4A06E16A22F1}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{0B69400E-A05D-4547-8C8C-4A06E16A22F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B69400E-A05D-4547-8C8C-4A06E16A22F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B69400E-A05D-4547-8C8C-4A06E16A22F1}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

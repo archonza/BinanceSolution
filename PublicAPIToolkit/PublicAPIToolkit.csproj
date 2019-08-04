@@ -182,6 +182,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Database\Controllers\DatabaseController.cs" />
+    <Compile Include="Database\Models\Database.cs" />
     <Compile Include="Exchange\Controllers\ExchangeController.cs" />
     <Compile Include="Login\Controllers\LoginController.cs" />
     <Compile Include="Login\Models\LoginInputModel.cs" />

@@ -1,6 +1,9 @@
-﻿using PublicAPIToolkit.Registration.Models;
+﻿using PublicAPIToolkit.Database.Controllers;
+using PublicAPIToolkit.Registration.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -45,7 +48,8 @@ namespace PublicAPIToolkit.Registration.Controllers
          registrationViewModel.status = registration.Verify();
          if (registrationViewModel.status == ERegistrationStatus.Successfull)
          {
-             /* Add new user to user db */
+            DatabaseController databaseController = new DatabaseController(@Environment.ExpandEnvironmentVariables("%BinSolDBConnectionString%"));
+            databaseController.InsertInto("dbo.Users", new System.Random().Next().ToString());
          }
          return Json(registrationViewModel, JsonRequestBehavior.AllowGet);
       }
