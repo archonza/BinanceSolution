@@ -44,12 +44,22 @@ namespace PublicAPIToolkit.Registration.Controllers
       {
          registration.UserName = registrationInputModel.UserName;
          registration.Password = registrationInputModel.Password;
-         registration.Password = registrationInputModel.RepeatPassword;
+         registration.RepeatPassword = registrationInputModel.RepeatPassword;
          registrationViewModel.status = registration.Verify();
          if (registrationViewModel.status == ERegistrationStatus.Successfull)
          {
             DatabaseController databaseController = new DatabaseController(@Environment.ExpandEnvironmentVariables("%BinSolDBConnectionString%"));
-            databaseController.InsertInto("dbo.Users", new System.Random().Next().ToString());
+            databaseController.InsertInto(
+               "dbo.Users", 
+               new System.Random().Next().ToString(), 
+               registrationInputModel.FirstName,
+               registrationInputModel.LastName,
+               registrationInputModel.Country,
+               registrationInputModel.ContactNumber,
+               registrationInputModel.IdNumber,
+               registrationInputModel.UserName,
+               registrationInputModel.Email,
+               registrationInputModel.Password.GetHashCode().ToString());
          }
          return Json(registrationViewModel, JsonRequestBehavior.AllowGet);
       }

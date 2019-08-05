@@ -64,4 +64,7 @@
   <ItemGroup>
     <None Include="PublicAPIToolkit.DB.publish.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="PublicAPIToolkit.DB.refactorlog" />
+  </ItemGroup>
 </Project>

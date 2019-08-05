@@ -13,7 +13,17 @@ namespace PublicAPIToolkit.Registration.Models
 
       public ERegistrationStatus Verify()
       {
-         return ERegistrationStatus.Successfull;
+         ERegistrationStatus registrationStatus = ERegistrationStatus.Unsuccessfull;
+         if (Password == RepeatPassword)
+         {
+            registrationStatus = ERegistrationStatus.Successfull;
+         }
+         else
+         {
+            registrationStatus = ERegistrationStatus.Unsuccessfull;
+         }
+
+         return registrationStatus;
       }
    }
 }

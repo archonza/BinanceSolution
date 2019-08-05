@@ -26,7 +26,7 @@ namespace PublicAPIToolkit.Database.Controllers
          foreach (string value in values)
          {
             count++;
-            combinedValues = combinedValues + value;
+            combinedValues = combinedValues + "'" + value + "'";
             if (count < values.Length)
             {
                combinedValues = combinedValues + ", ";
