@@ -1,5 +1,6 @@
 ﻿using PublicAPIToolkit.Database.Controllers;
 using PublicAPIToolkit.Registration.Models;
+using PublicAPIToolkit.User.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -49,17 +50,16 @@ namespace PublicAPIToolkit.Registration.Controllers
          if (registrationViewModel.status == ERegistrationStatus.Successfull)
          {
             DatabaseController databaseController = new DatabaseController(@Environment.ExpandEnvironmentVariables("%BinSolDBConnectionString%"));
-            databaseController.InsertInto(
-               "dbo.Users", 
-               new System.Random().Next().ToString(), 
-               registrationInputModel.FirstName,
-               registrationInputModel.LastName,
-               registrationInputModel.Country,
-               registrationInputModel.ContactNumber,
-               registrationInputModel.IdNumber,
-               registrationInputModel.UserName,
-               registrationInputModel.Email,
-               registrationInputModel.Password.GetHashCode().ToString());
+            UserController userController = new UserController(databaseController);
+            PublicAPIToolkit.User.Models.User user = new PublicAPIToolkit.User.Models.User();
+            user.FirstName = registrationInputModel.FirstName;
+            user.LastName = registrationInputModel.LastName;
+            user.Country = registrationInputModel.Country;
+            user.ContactNumber = registrationInputModel.ContactNumber;
+            user.NID = registrationInputModel.IdNumber;
+            user.UserName = registrationInputModel.UserName;
+            user.Password = registrationInputModel.Password;
+            userController.AddUser(user);
          }
          return Json(registrationViewModel, JsonRequestBehavior.AllowGet);
       }
