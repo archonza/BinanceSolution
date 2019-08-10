@@ -9,7 +9,7 @@ Trading features like:
 - Setting up trade strategies
 - Ect.
 
-The goal of these features is to assist users in making more money off of each trade, limit there losses, explore the realm of trade strategies.
+The goal of these features is to assist users in making more money off of each trade, limit their losses, explore the realm of trade strategies.
 
 If anyone wants to contribute to this project they can do so as follows:
 - Read up on Git flow. (The project follows Git flow branch management scheme)
