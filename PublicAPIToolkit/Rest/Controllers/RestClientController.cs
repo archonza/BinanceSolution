@@ -60,7 +60,7 @@ namespace PublicAPIToolkit.Rest.Controllers
             }
          }
 
-         restClient.ResponseData =  responseValue;
+         restClient.ResponseData = responseValue;
       }
 
       public string GetResponse()

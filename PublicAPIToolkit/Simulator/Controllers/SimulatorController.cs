@@ -6,8 +6,8 @@ using static PublicAPIToolkit.Simulator.Models.SimulatorModel;
 
 namespace PublicAPIToolkit.Simulator.Controllers
 {
-    public class SimulatorController
-    {
+   public class SimulatorController
+   {
       private SimulatorModel simulatorModel;
       private string FullFilePath { get; set; }
       private Object threadLock = new Object();

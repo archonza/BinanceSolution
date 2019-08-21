@@ -5,9 +5,9 @@ using System.Web;
 
 namespace PublicAPIToolkit.Login.Models
 {
-   public class LoginInputModel
+   public class LoginViewModel
    {
+      public bool LoggedIn { get; set; } = false;
       public string UserName { get; set; } = string.Empty;
-      public string Password { get; set; } = string.Empty;
    }
 }

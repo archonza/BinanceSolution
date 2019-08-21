@@ -186,7 +186,9 @@
     <Compile Include="Database\Models\Database.cs" />
     <Compile Include="Exchange\Controllers\ExchangeController.cs" />
     <Compile Include="Login\Controllers\LoginController.cs" />
+    <Compile Include="Login\Models\Login.cs" />
     <Compile Include="Login\Models\LoginInputModel.cs" />
+    <Compile Include="Login\Models\LoginViewModel.cs" />
     <Compile Include="Registration\Controllers\RegistrationController.cs" />
     <Compile Include="Registration\Models\ERegistrationStatus.cs" />
     <Compile Include="Registration\Models\Registration.cs" />
@@ -262,7 +264,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Registration\Views\Index.cshtml" />
-    <Content Include="Login\Views\Index.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -290,6 +291,7 @@
     <Folder Include="Exchange\Views\Login\" />
     <Folder Include="Exchange\Views\Registration\" />
     <Folder Include="Home\Models\" />
+    <Folder Include="Login\Views\" />
     <Folder Include="Simulator\Views\" />
   </ItemGroup>
   <ItemGroup>

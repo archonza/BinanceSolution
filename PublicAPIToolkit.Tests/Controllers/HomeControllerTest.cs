@@ -2,24 +2,25 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PublicAPIToolkit;
 using PublicAPIToolkit.Controllers;
+using PublicAPIToolkit.Home.Controllers;
 
 namespace PublicAPIToolkit.Tests.Controllers
 {
-    [TestClass]
-    public class HomeControllerTest
-    {
-        [TestMethod]
-        public void Index()
-        {
-            // Arrange
-            HomeController controller = new HomeController();
+   [TestClass]
+   public class HomeControllerTest
+   {
+      [TestMethod]
+      public void Index()
+      {
+         // Arrange
+         HomeController controller = new HomeController();
 
-            // Act
-            ViewResult result = controller.Index() as ViewResult;
+         // Act
+         ViewResult result = controller.Index() as ViewResult;
 
-            // Assert
-            Assert.IsNotNull(result);
-            Assert.AreEqual("Home Page", result.ViewBag.Title);
-        }
-    }
+         // Assert
+         Assert.IsNotNull(result);
+         Assert.AreEqual("Home Page", result.ViewBag.Title);
+      }
+   }
 }
