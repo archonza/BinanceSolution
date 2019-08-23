@@ -1,6 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
-@model PublicAPIToolkit.Login.Models.LoginInputModel
+@model PublicAPIToolkit.Login.Models.LoginViewModel
 <head>
    <meta charset="utf-8" />
    <meta name="viewport" content="width=device-width" />
@@ -28,7 +28,7 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-               <li style="vertical-align:middle">
+               <li>
                   <table>
 
                      <colgroup>
@@ -51,43 +51,93 @@
                      </tr>
                      <tr>
                         @{
+
                            if (loginViewModel.LoggedIn == false)
                            {
                               <!--<td><input type="text" id="UserName" name="UserName" value="" required style="font-size: 12px; width: 100px"></td>-->
-                              using (Html.BeginForm("Login", "Login", FormMethod.Post))
-                              {
-                                 <td><input type="text" id="UserName" name="UserName" value="" required style="font-size: 12px; width: 100px"></td>
-                                 <td style="padding-left: 5px"><input type="password" name="Password" required style="font-size: 12px; width: 100px"></td>
-                                 }
-                              }
-                              else
-                              {
-                              <td style="visibility: hidden;"><input type="text" name="UserName" required style="font-size: 12px; width: 100px"></td>
-                              <td style="padding-left: 5px; visibility: hidden;"><input type="password" name="Password" required style="font-size: 12px; width: 100px"></td>
-                              }
+
+                              <!--<td><input type="text" id="UserName" name="UserName" value="" required style="font-size: 12px; width: 100px"></td>-->
+                              <td>
+                                 @Html.TextBoxFor(x => loginViewModel.UserName, new { id = "username" });
+                              </td>
+                                 <!--<td style="padding-left: 5px"><input type="password" name="Password" required style="font-size: 12px; width: 100px"></td>-->
+                              <td>
+                                 @Html.TextBoxFor(x => loginViewModel.Password, new { id = "pwd" });
+                              </td>
+
                            }
+                           else
+                           {
+                              <!--<td style="visibility: hidden;"><input type="text" name="UserName" required style="font-size: 12px; width: 100px"></td>-->
+                              <td>
+                                 @Html.HiddenFor(x => loginViewModel.UserName);
+                              </td>
+                              <td>
+                                 @Html.HiddenFor(x => loginViewModel.Password);
+                              </td>
+                              <!--<td style="padding-left: 5px; visibility: hidden;"><input type="password" name="Password" required style="font-size: 12px; width: 100px"></td>-->
+                           }
+                         }
                      </tr>
                   </table>
                   &nbsp;
                </li>
                @{
-                     if (loginViewModel.LoggedIn == false)
-                     {
-                        using (Html.BeginForm("Index", "Login", FormMethod.Post))
-                        {
-                            <li>@Html.ActionLink("Login", "Index", "Login", new { UserName = Request.QueryString["model.UserName"] }, null)</li>
-                            <li>@Html.ActionLink("Register", "Index", "Registration", new { area = "" }, null)</li>
-                        }
-                     }
-                     else
-                     {
-                        <li>@Html.ActionLink("Logout", "Logout", "Login", new { area = "" }, null)</li>
-                     }
+                  if (loginViewModel.LoggedIn == false)
+                  {
+                     var loginInputModel = new { UserName = ViewData["UserName"], Password = ViewData["Password"] };
+                    //@Html.ActionLink("Login", "Login", "Login", new { loginInputModel }, new { @class = "sbmt" })
+                     <!--<li class="navbar-btn"><button type="submit" name="submit" value="click" class="navbar-link btn btn-link" formmethod="post">Login</button></li>-->
+                     <li><a role="button" value="click" onclick="authorize()">Login</a></li>
+                     <li>@Html.ActionLink("Register", "Index", "Registration", new { area = "" }, null)</li>
                   }
+                  else
+                  {
+                     <li>@Html.ActionLink("Logout", "Logout", "Login", new { area = "" }, null)</li>
+                  }
+               }
             </ul>
          </div>
       </div>
    </div>
+   <script language="javascript">
+      function authorize()
+      {
+        var loginInputModel = {
+           UserName: document.getElementById("username").value,
+           Password: document.getElementById("pwd").value,
+         };
+        $.ajax({
+            type: 'POST',
+            url: 'http://localhost:52609/Login/Login',
+            data: JSON.stringify(loginInputModel),
+            contentType: 'application/json; charset=utf-8',
+            dataType: 'json',
+            success: function (response) {
+                console.log("success");
+                console.log(response);
+            },
+            error: function (response) {
+                //if (data.statusText != "OK") {
+                //    console.log("error");
+                //    console.log(response);
+                //}
+            }
+        }).done(function (response) {
+           // var loginViewModel = response;
+           // var connectionStatus = toolkitViewModel.ConnectionStatus;
+           // if (connectionStatus == true) {
+           //     document.getElementById("btn-connect").style.backgroundColor = "Green";
+           //     document.getElementById("btn-connect").innerHTML = "&laquo; CONNECTED &raquo;";
+           // }
+           // else {
+           //     document.getElementById("btn-connect").style.backgroundColor = "Red";
+           //     document.getElementById("btn-connect").innerHTML = "&laquo; NOT CONNECTED &raquo;";
+           //     console.log(connectionStatus);
+           // }
+        });
+      }
+   </script>
    <div class="container body-content">
       @RenderBody()
       <hr />
@@ -99,5 +149,6 @@
    @Scripts.Render("~/bundles/jquery")
    @Scripts.Render("~/bundles/bootstrap")
    @RenderSection("scripts", required: false)
+
 </body>
 </html>

@@ -9,5 +9,6 @@ namespace PublicAPIToolkit.Login.Models
    {
       public bool LoggedIn { get; set; } = false;
       public string UserName { get; set; } = string.Empty;
+      public string Password { get; set; } = string.Empty;
    }
 }

@@ -18,9 +18,15 @@ namespace PublicAPIToolkit.Login.Controllers
 
       public ActionResult Index()
       {
+         return View("~/Home/Views/Index.cshtml");
+      }
+
+      [HttpGet]
+      public ActionResult Login()
+      {
          ViewData["LoginViewModel"] = new LoginViewModel()
          {
-            LoggedIn = true
+            LoggedIn = false
          };
          return View("~/Home/Views/Index.cshtml");
       }

@@ -13,8 +13,16 @@ namespace PublicAPIToolkit.Login.Models
 
       public bool Authorization(string userName, string password)
       {
-         // Search db and verify whether username and password is correct.
-         return true;
+         bool result;
+         if ((userName == "test") && (password == "test"))
+         {
+            result = true;
+         }
+         else
+         {
+            result = false;
+         }
+         return result;
       }
 
       public void DbSync()
