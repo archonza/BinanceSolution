@@ -15,8 +15,11 @@ namespace PublicAPIToolkit.Registration.Controllers
    {
       private Models.Registration registration;
       private RegistrationViewModel registrationViewModel;
+      private DatabaseController databaseController;
+
       public RegistrationController()
       {
+         databaseController = DatabaseController.GetInstance();
          registration = new Models.Registration();
          registrationViewModel = new RegistrationViewModel();
       }
@@ -49,8 +52,7 @@ namespace PublicAPIToolkit.Registration.Controllers
          registrationViewModel.status = registration.Verify();
          if (registrationViewModel.status == ERegistrationStatus.Successfull)
          {
-            DatabaseController databaseController = new DatabaseController(@Environment.ExpandEnvironmentVariables("%BinSolDBConnectionString%"));
-            UserController userController = new UserController(databaseController);
+            UserController userController = new UserController();
             PublicAPIToolkit.User.Models.User user = new PublicAPIToolkit.User.Models.User();
             user.FirstName = registrationInputModel.FirstName;
             user.LastName = registrationInputModel.LastName;

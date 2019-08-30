@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="Users.sql" />
+    <Build Include="Login.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="PublicAPIToolkit.DB.publish.xml" />

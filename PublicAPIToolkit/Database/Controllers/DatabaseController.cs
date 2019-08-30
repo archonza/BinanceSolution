@@ -9,7 +9,8 @@ namespace PublicAPIToolkit.Database.Controllers
    public class DatabaseController
    {
       private static string connectionString = string.Empty;
-      private static SqlConnection connection;
+      private SqlConnection connection;
+      private static DatabaseController databaseController = new DatabaseController(@Environment.ExpandEnvironmentVariables("%BinSolDBConnectionString%"));
 
       public DatabaseController (string connectionString)
       {
@@ -44,6 +45,17 @@ namespace PublicAPIToolkit.Database.Controllers
       public void InsertInto(string tableName, params string[][] columnsAndValues)
       {
 
+      }
+
+      public static DatabaseController GetInstance(string connectionString)
+      {
+         databaseController.connection.ConnectionString = connectionString;
+         return databaseController;
+      }
+
+      public static DatabaseController GetInstance()
+      {
+         return databaseController;
       }
    }
 }

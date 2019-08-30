@@ -11,7 +11,14 @@ namespace PublicAPIToolkit.Login.Models
       public string Password { get; set; } = string.Empty;
       public bool LoggedIn { get; set; } = false;
 
-      public bool Authorization(string userName, string password)
+      public Login(string userName, string password, bool loggedIn)
+      {
+         UserName = userName;
+         Password = password;
+         LoggedIn = loggedIn;
+      }
+
+      public static bool Authorization(string userName, string password)
       {
          bool result;
          if ((userName == "test") && (password == "test"))
@@ -23,15 +30,6 @@ namespace PublicAPIToolkit.Login.Models
             result = false;
          }
          return result;
-      }
-
-      public void DbSync()
-      {
-         // Once logged in, sync with db.
-         if (LoggedIn == true)
-         {
-
-         }
       }
    }
 }

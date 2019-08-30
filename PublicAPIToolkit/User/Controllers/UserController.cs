@@ -12,16 +12,25 @@ namespace PublicAPIToolkit.User.Controllers
       private static List<PublicAPIToolkit.User.Models.User> users;
       DatabaseController databaseController;
 
-      public UserController(DatabaseController databaseController)
+      public UserController()
       {
-         this.databaseController = databaseController;
+         databaseController = DatabaseController.GetInstance();
          users = new List<PublicAPIToolkit.User.Models.User>();
       }
 
       public void AddUser(PublicAPIToolkit.User.Models.User user)
       {
          users.Add(user);
+         DbSync();
+      }
 
+      public void Remove(uint id)
+      {
+         users.RemoveAll(x => x.Id == id);
+      }
+
+      public void DbSync()
+      {
          // NOTE: Id primary key is automatically generated
          databaseController.InsertInto(
             "dbo.Users",
@@ -33,11 +42,6 @@ namespace PublicAPIToolkit.User.Controllers
             users[users.Count - 1].UserName,
             users[users.Count - 1].Email,
             users[users.Count - 1].Password);
-      }
-
-      public void Remove(uint id)
-      {
-         users.RemoveAll(x => x.Id == id);
       }
    }
 }
