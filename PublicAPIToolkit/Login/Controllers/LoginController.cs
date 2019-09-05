@@ -52,8 +52,8 @@ namespace PublicAPIToolkit.Login.Controllers
             {
                LoggedIn = false
             };
-            logins.RemoveAll(x => x.UserName == loginInputModel.UserName);
-            DbSync();
+            //logins.RemoveAll(x => x.UserName == loginInputModel.UserName);
+            //DbSync();
          }
 
          return View("~/Home/Views/Index.cshtml");
@@ -72,10 +72,11 @@ namespace PublicAPIToolkit.Login.Controllers
 
       public void DbSync()
       {
+         
          // NOTE: Id primary key is automatically generated
          databaseController.InsertInto(
             "dbo.Login",
-            "" // Get UserId from Users database
+            databaseController.SelectFromTableWhereColumns("dbo.Users", "UserId", "UserId", logins[logins.Count - 1].UserName)[0], // Get UserId from Users database
             logins[logins.Count - 1].UserName,
             logins[logins.Count - 1].Password,
             (Convert.ToUInt32(logins[logins.Count - 1].LoggedIn)).ToString());

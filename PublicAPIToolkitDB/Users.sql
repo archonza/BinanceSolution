@@ -1,12 +1,13 @@
 ﻿CREATE TABLE [dbo].[Users]
 (
-	 [UserId] INT IDENTITY(0,1) PRIMARY KEY, 
-    [FirstName] NCHAR(32) NULL, 
-    [LastName] NCHAR(32) NULL, 
-    [Country] NCHAR(32) NULL, 
-    [ContactNumber] NCHAR(32) NULL, 
-    [NID] NCHAR(64) NULL, 
-    [UserName] NCHAR(64) NULL, 
-    [Email] NCHAR(256) NULL, 
-    [Password] NCHAR(128) NULL
+	 [UserId] INT IDENTITY(0,1), 
+    [FirstName] VARCHAR(32) NOT NULL, 
+    [LastName] VARCHAR(32) NOT NULL, 
+    [Country] VARCHAR(32) NOT NULL, 
+    [ContactNumber] VARCHAR(32) NOT NULL, 
+    [NID] VARCHAR(64) NOT NULL, 
+    [UserName] VARCHAR(64) NOT NULL, 
+    [Email] VARCHAR(256) NOT NULL, 
+    [Password] VARCHAR(128) NOT NULL,
+    PRIMARY KEY(UserId, UserName, Password)
 )

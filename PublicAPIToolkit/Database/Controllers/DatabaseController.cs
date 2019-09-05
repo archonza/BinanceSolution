@@ -47,7 +47,30 @@ namespace PublicAPIToolkit.Database.Controllers
 
       }
 
-      public static DatabaseController GetInstance(string connectionString)
+      public string[] SelectFromTableWhereColumns(string tableName, string selection, string columnName, string value)
+      {
+         List<string> myStrings = new List<string>();
+         connection.Open();
+         SqlCommand command;
+         SqlDataAdapter adapter = new SqlDataAdapter();
+         string sql = "SELECT " + selection +" FROM " + tableName + " WHERE(" + columnName + " = '" + value + "');";
+         command = new SqlCommand(sql, connection);
+         adapter.SelectCommand = new SqlCommand(sql, connection);
+         SqlDataReader sqlDataReader = adapter.SelectCommand.ExecuteReader();
+
+         while (sqlDataReader.Read())
+         {
+            myStrings.Add(sqlDataReader.GetValue(0).ToString());
+         }
+
+         adapter.Dispose();
+         command.Dispose();
+         connection.Close();
+         
+         return myStrings.ToArray();
+      }
+
+        public static DatabaseController GetInstance(string connectionString)
       {
          databaseController.connection.ConnectionString = connectionString;
          return databaseController;

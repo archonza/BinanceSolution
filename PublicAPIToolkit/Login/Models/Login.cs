@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PublicAPIToolkit.Database.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -20,8 +21,11 @@ namespace PublicAPIToolkit.Login.Models
 
       public static bool Authorization(string userName, string password)
       {
+         DatabaseController databaseController;
          bool result;
-         if ((userName == "test") && (password == "test"))
+         databaseController = DatabaseController.GetInstance();
+         if ((databaseController.SelectFromTableWhereColumns("dbo.Users", "UserName", "UserName", userName)[0] == userName) &&
+             (databaseController.SelectFromTableWhereColumns("dbo.Users", "Password", "Password", password)[0] == password))
          {
             result = true;
          }

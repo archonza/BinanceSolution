@@ -36,7 +36,7 @@
                      </colgroup>
                      <tr>
                         @{
-                           if (loginViewModel.LoggedIn == false)
+                           if ((loginViewModel == null) || (loginViewModel.LoggedIn == false))
                            {
                               <th style="color:darkgray; font-size: 10px">Username</th>
                               <th style="color:darkgray; font-size: 10px; padding-left: 5px">Password</th>
@@ -52,7 +52,7 @@
                      <tr>
                         @{
 
-                           if (loginViewModel.LoggedIn == false)
+                           if ((loginViewModel == null) || (loginViewModel.LoggedIn == false))
                            {
                               <!--<td><input type="text" id="UserName" name="UserName" value="" required style="font-size: 12px; width: 100px"></td>-->
 
@@ -83,7 +83,7 @@
                   &nbsp;
                </li>
                @{
-                  if (loginViewModel.LoggedIn == false)
+                  if ((loginViewModel == null) || (loginViewModel.LoggedIn == false))
                   {
                      var loginInputModel = new { UserName = ViewData["UserName"], Password = ViewData["Password"] };
                     //@Html.ActionLink("Login", "Login", "Login", new { loginInputModel }, new { @class = "sbmt" })
