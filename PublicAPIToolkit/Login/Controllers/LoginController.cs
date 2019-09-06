@@ -43,7 +43,7 @@ namespace PublicAPIToolkit.Login.Controllers
             {
                LoggedIn = true
             };
-            logins.Add(new Models.Login(loginInputModel.UserName, loginInputModel.Password, true));
+            logins.Add(new Models.Login(loginInputModel.UserName, loginInputModel.Password, true, GetClientIpAddress()));
             DbSync();
          }
          else
@@ -59,6 +59,17 @@ namespace PublicAPIToolkit.Login.Controllers
          return View("~/Home/Views/Index.cshtml");
       }
 
+      private string GetClientIpAddress()
+      {
+         string ipAddress = Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+         if (string.IsNullOrEmpty(ipAddress))
+         {
+            ipAddress = Request.ServerVariables["REMOTE_ADDR"];
+         }
+
+         return ipAddress;
+      }
+
       public ActionResult Logout(LoginInputModel loginInputModel)
       {
          ViewData["LoginViewModel"] = new LoginViewModel()
@@ -72,14 +83,19 @@ namespace PublicAPIToolkit.Login.Controllers
 
       public void DbSync()
       {
-         
-         // NOTE: Id primary key is automatically generated
-         databaseController.InsertInto(
-            "dbo.Login",
-            databaseController.SelectFromTableWhereColumns("dbo.Users", "UserId", "UserId", logins[logins.Count - 1].UserName)[0], // Get UserId from Users database
-            logins[logins.Count - 1].UserName,
-            logins[logins.Count - 1].Password,
-            (Convert.ToUInt32(logins[logins.Count - 1].LoggedIn)).ToString());
+
+         if (logins[logins.Count - 1].LoggedIn == true)
+         {
+            // NOTE: Id primary key is automatically generated
+            databaseController.InsertInto(
+               "dbo.Login",
+               databaseController.SelectFromTableWhereColumns("dbo.Users", "UserId", "UserName", logins[logins.Count - 1].UserName)[0], // Get UserId from Users database
+               logins[logins.Count - 1].UserName,
+               logins[logins.Count - 1].Password,
+               (Convert.ToUInt32(logins[logins.Count - 1].LoggedIn)).ToString(),
+               logins[logins.Count - 1].IpAddress);
+            logins[logins.Count - 1].LoginId = Convert.ToInt32(databaseController.Select("SELECT LoginId FROM dbo.Login WHERE(UserName = '" + logins[logins.Count - 1].UserName + "' AND IpAddress = '" + logins[logins.Count - 1].IpAddress + "');"));
+         }
       }
    }
 }

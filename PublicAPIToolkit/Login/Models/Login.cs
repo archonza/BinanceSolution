@@ -8,15 +8,18 @@ namespace PublicAPIToolkit.Login.Models
 {
    public class Login
    {
+      public int LoginId { get; set; } = 0;
       public string UserName { get; set; } = string.Empty;
       public string Password { get; set; } = string.Empty;
       public bool LoggedIn { get; set; } = false;
+      public string IpAddress { get; set; } = string.Empty;
 
-      public Login(string userName, string password, bool loggedIn)
+      public Login(string userName, string password, bool loggedIn, string ipAddress)
       {
          UserName = userName;
          Password = password;
          LoggedIn = loggedIn;
+         IpAddress = ipAddress;
       }
 
       public static bool Authorization(string userName, string password)

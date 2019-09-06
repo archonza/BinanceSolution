@@ -70,7 +70,29 @@ namespace PublicAPIToolkit.Database.Controllers
          return myStrings.ToArray();
       }
 
-        public static DatabaseController GetInstance(string connectionString)
+      public string[] Select(string sql)
+      {
+         List<string> myStrings = new List<string>();
+         connection.Open();
+         SqlCommand command;
+         SqlDataAdapter adapter = new SqlDataAdapter();
+         command = new SqlCommand(sql, connection);
+         adapter.SelectCommand = new SqlCommand(sql, connection);
+         SqlDataReader sqlDataReader = adapter.SelectCommand.ExecuteReader();
+
+         while (sqlDataReader.Read())
+         {
+            myStrings.Add(sqlDataReader.GetValue(0).ToString());
+         }
+
+         adapter.Dispose();
+         command.Dispose();
+         connection.Close();
+
+         return myStrings.ToArray();
+      }
+
+      public static DatabaseController GetInstance(string connectionString)
       {
          databaseController.connection.ConnectionString = connectionString;
          return databaseController;
