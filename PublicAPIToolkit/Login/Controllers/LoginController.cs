@@ -27,6 +27,7 @@ namespace PublicAPIToolkit.Login.Controllers
       // GET
       public ActionResult Login()
       {
+         /* TODO: Check whether user is not already logged in */
          ViewData["LoginViewModel"] = new LoginViewModel()
          {
             LoggedIn = false
@@ -35,7 +36,7 @@ namespace PublicAPIToolkit.Login.Controllers
       }
 
       [HttpPost]
-      public ActionResult Login(LoginInputModel loginInputModel)
+      public JsonResult Login(LoginInputModel loginInputModel)
       {
          if (Models.Login.Authorization(loginInputModel.UserName, loginInputModel.Password) == true)
          {
@@ -43,7 +44,9 @@ namespace PublicAPIToolkit.Login.Controllers
             {
                LoggedIn = true
             };
+            /* Only add if not in object */
             logins.Add(new Models.Login(loginInputModel.UserName, loginInputModel.Password, true, GetClientIpAddress()));
+            /* Only sync if not already logged in */
             DbSync();
          }
          else
@@ -56,7 +59,7 @@ namespace PublicAPIToolkit.Login.Controllers
             //DbSync();
          }
 
-         return View("~/Home/Views/Index.cshtml");
+         return Json(ViewData["LoginViewModel"], JsonRequestBehavior.AllowGet);
       }
 
       private string GetClientIpAddress()
@@ -94,7 +97,7 @@ namespace PublicAPIToolkit.Login.Controllers
                logins[logins.Count - 1].Password,
                (Convert.ToUInt32(logins[logins.Count - 1].LoggedIn)).ToString(),
                logins[logins.Count - 1].IpAddress);
-            logins[logins.Count - 1].LoginId = Convert.ToInt32(databaseController.Select("SELECT LoginId FROM dbo.Login WHERE(UserName = '" + logins[logins.Count - 1].UserName + "' AND IpAddress = '" + logins[logins.Count - 1].IpAddress + "');"));
+            logins[logins.Count - 1].LoginId = Convert.ToInt32(databaseController.Select("SELECT LoginId FROM dbo.Login WHERE(UserName = '" + logins[logins.Count - 1].UserName + "' AND IpAddress = '" + logins[logins.Count - 1].IpAddress + "');")[0]);
          }
       }
    }

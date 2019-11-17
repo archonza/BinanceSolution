@@ -38,13 +38,13 @@
                         @{
                            if ((loginViewModel == null) || (loginViewModel.LoggedIn == false))
                            {
-                              <th style="color:darkgray; font-size: 10px">Username</th>
-                              <th style="color:darkgray; font-size: 10px; padding-left: 5px">Password</th>
+                              <th id="th-username" style="color:darkgray; font-size: 10px">Username</th>
+                              <th id="th-pwd" style="color:darkgray; font-size: 10px; padding-left: 5px">Password</th>
                            }
                            else
                            {
                               <th style="color:darkgray; font-size: 10px; visibility: hidden;">Username</th>
-                                       <th style="color:darkgray; font-size: 10px; visibility: hidden; padding-left: 5px">Password</th>
+                              <th style="color:darkgray; font-size: 10px; visibility: hidden; padding-left: 5px">Password</th>
                            }
                         }
                         <th></th>
@@ -54,13 +54,9 @@
 
                            if ((loginViewModel == null) || (loginViewModel.LoggedIn == false))
                            {
-                              <!--<td><input type="text" id="UserName" name="UserName" value="" required style="font-size: 12px; width: 100px"></td>-->
-
-                              <!--<td><input type="text" id="UserName" name="UserName" value="" required style="font-size: 12px; width: 100px"></td>-->
                               <td>
                                  @Html.TextBoxFor(x => loginViewModel.UserName, new { id = "username" });
                               </td>
-                                 <!--<td style="padding-left: 5px"><input type="password" name="Password" required style="font-size: 12px; width: 100px"></td>-->
                               <td>
                                  @Html.TextBoxFor(x => loginViewModel.Password, new { id = "pwd" });
                               </td>
@@ -68,14 +64,12 @@
                            }
                            else
                            {
-                              <!--<td style="visibility: hidden;"><input type="text" name="UserName" required style="font-size: 12px; width: 100px"></td>-->
                               <td>
                                  @Html.HiddenFor(x => loginViewModel.UserName);
                               </td>
                               <td>
                                  @Html.HiddenFor(x => loginViewModel.Password);
                               </td>
-                              <!--<td style="padding-left: 5px; visibility: hidden;"><input type="password" name="Password" required style="font-size: 12px; width: 100px"></td>-->
                            }
                          }
                      </tr>
@@ -83,18 +77,10 @@
                   &nbsp;
                </li>
                @{
-                  if ((loginViewModel == null) || (loginViewModel.LoggedIn == false))
-                  {
-                     var loginInputModel = new { UserName = ViewData["UserName"], Password = ViewData["Password"] };
-                    //@Html.ActionLink("Login", "Login", "Login", new { loginInputModel }, new { @class = "sbmt" })
-                     <!--<li class="navbar-btn"><button type="submit" name="submit" value="click" class="navbar-link btn btn-link" formmethod="post">Login</button></li>-->
-                     <li><a role="button" value="click" onclick="authorize()">Login</a></li>
-                     <li>@Html.ActionLink("Register", "Index", "Registration", new { area = "" }, null)</li>
-                  }
-                  else
-                  {
-                     <li>@Html.ActionLink("Logout", "Logout", "Login", new { area = "" }, null)</li>
-                  }
+                  var loginInputModel = new { UserName = ViewData["UserName"], Password = ViewData["Password"] };
+                  <li><a id="a-login" role="button" value="click" onclick="authorize()">Login</a></li>
+                  <li>@Html.ActionLink("Register", "Index", "Registration", new { area = "" }, new { id = "actlnk-register" })</li>
+                  <li>@Html.ActionLink("Logout", "Logout", "Login", new { area = "" }, new { id = "actlnk-logout", style = "visibility: hidden" })</li>
                }
             </ul>
          </div>
@@ -124,17 +110,22 @@
                 //}
             }
         }).done(function (response) {
-           // var loginViewModel = response;
-           // var connectionStatus = toolkitViewModel.ConnectionStatus;
-           // if (connectionStatus == true) {
-           //     document.getElementById("btn-connect").style.backgroundColor = "Green";
-           //     document.getElementById("btn-connect").innerHTML = "&laquo; CONNECTED &raquo;";
-           // }
-           // else {
-           //     document.getElementById("btn-connect").style.backgroundColor = "Red";
-           //     document.getElementById("btn-connect").innerHTML = "&laquo; NOT CONNECTED &raquo;";
-           //     console.log(connectionStatus);
-           // }
+           var loggedIn = response.LoggedIn;
+           if (loggedIn == true) {
+              document.getElementById("username").style.visibility = "hidden";
+              document.getElementById("pwd").style.visibility = "hidden";
+              document.getElementById("th-username").style.visibility = "hidden";
+              document.getElementById("th-pwd").style.visibility = "hidden";
+              document.getElementById("a-login").style.visibility = "hidden";
+              document.getElementById("actlnk-register").style.visibility = "hidden";
+              document.getElementById("actlnk-logout").style.visibility = "visible";
+              console.log("LoggedIn: " + loggedIn);
+           }
+           else {
+              document.getElementById("username").style.visibility = "hidden";
+              document.getElementById("btn-connect").style.visibility = "hidden";
+              console.log("LoggedIn: " + loggedIn);
+           }
         });
       }
    </script>
